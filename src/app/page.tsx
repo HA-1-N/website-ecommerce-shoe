@@ -1,13 +1,11 @@
 'use client';
-import HeaderTop from '@/ui/layout/navbar/HeaderTop';
-import Navbar from '@/ui/layout/navbar/Navbar';
+import HotProduct from '@/ui/home/hot-product/HotProduct';
 
 export default function Home() {
   return (
     <>
       <main>
-        <HeaderTop />
-        <Navbar />
+        <HotProduct />
       </main>
     </>
   );

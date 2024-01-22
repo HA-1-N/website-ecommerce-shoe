@@ -1,0 +1,200 @@
+.productWrappersOne {
+    margin-top: 30px;
+    box-shadow: 0px 3px 15px 0px #0000000f;
+    overflow: hidden;
+}
+
+.thumb {
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.imageLink {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out 0.1s;
+}
+
+.productWrappersOne:hover .thumb .imageHover {
+    opacity: 1;
+    transition: 0.3s all ease-in-out;
+}
+
+.productWrappersOne:hover .thumb .imageLink img {
+    transform: scale(1.1) rotate(3deg);
+}
+
+.productWrappersOne:hover .actions .action:not(.wishlist) {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.productWrappersOne:hover .thumb .btnAddToCart {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+.image {
+    z-index: 1;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease 0s;
+    vertical-align: middle;
+    background-size: cover;
+}
+
+.imageHover {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease 0s;
+    vertical-align: middle;
+}
+
+.badges {
+    position: absolute;
+    z-index: 8;
+    top: 18px;
+    left: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.badges .new {
+    background-color: #007a58;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    display: block;
+    padding: 0 7px;
+    text-align: center;
+    text-transform: capitalize;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.actions {
+    position: absolute;
+    z-index: 9;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease 0s;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+    color: #212121;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 1.6rem;
+}
+
+.action:hover:not(.active) {
+    color: #fff;
+    background-color: #ff7004;
+}
+
+.actions .action:not(.wishlist) {
+    visibility: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+.actions .action+.action {
+    margin-top: 10px;
+}
+
+.btnAddToCart {
+    display: block !important;
+    width: 80%;
+    /* line-height: 30px !important; */
+    background-color: #fff !important;
+    text-align: center !important;
+    border: 0 !important;
+    border-radius: 3px !important;
+    font-size: 12px !important;
+    position: absolute !important;
+    bottom: 20px !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 11 !important;
+    margin: auto !important;
+    font-weight: 600 !important;
+    visibility: hidden !important;
+    transition: all 0.3s ease 0s !important;
+    transform: translateY(20px) !important;
+    color: #3f3f3f !important;
+    opacity: 0 !important;
+    font-family: Raleway, sans-serif;
+}
+
+.btnAddToCart:hover {
+    color: #ff7004 !important;
+    /* background-color: var(--bs-white) !important; */
+}
+
+.content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px 23px 15px;
+    transition: all 0.3s ease 0s;
+    text-align: center;
+    background-color: #fff;
+}
+
+.content .title {
+    font-size: 14px;
+    margin: 0px 0 10px;
+    font-weight: 400;
+}
+
+.content .title .titleLink {
+    text-decoration: none;
+    color: #1d1d1d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 16px;
+    margin: 0;
+    transition: all 0.3s ease-in-out 0.1s;
+}
+
+.content .title .titleLink:hover {
+    color: #ff7004;
+}
+
+.content .price {
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #212121;
+}
+
+.content .price .new {
+    color: #3f3f3f;
+    font-weight: 500;
+    font-size: 16px !important;
+}
