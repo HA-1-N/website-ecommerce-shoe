@@ -1,0 +1,17 @@
+.forgotPass::after {
+    content: '';
+    display: block;
+    height: 2px;
+    /* Set the height of the underline */
+    width: 0;
+    /* Set the initial width to 0 */
+    background-color: rgb(253 186 116);
+    /* Set the color of the underline */
+    transition: width 0.3s ease;
+    /* Add a transition for a smooth effect */
+}
+
+.forgotPass:hover::after {
+    width: 100%;
+    /* When you mouse over the container, widen the underline to 100% */
+}
