@@ -17,7 +17,7 @@ const Navbar = () => {
               </Link>
             </div>
 
-            <div className="block">
+            <div className="block max-[1024px]:hidden">
               <MenuNavbar />
             </div>
 

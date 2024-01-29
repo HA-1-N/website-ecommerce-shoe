@@ -1,6 +1,9 @@
+'use client';
+
+import { getBannerData } from '@/lib/api/banner.api';
 import { Carousel } from 'antd';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -12,30 +15,30 @@ const contentStyle: React.CSSProperties = {
 };
 
 const HomeSlider = () => {
+  const [sliderDetail, setSliderDetail] = useState<[]>([]);
+
+  const getBanner = async () => {
+    const page = 0;
+    const size = 100000;
+    const data = await getBannerData(page, size);
+    setSliderDetail(data);
+  };
+
+  useEffect(() => {
+    getBanner();
+  }, []);
+
   const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+    // console.log(currentSlide);
   };
   return (
     <>
       <Carousel afterChange={onChange} autoplay>
-        <div>
-          <img
-            src="https://huge-shoes-n-bags.myshopify.com/cdn/shop/files/2_ce2c5d79-fe9d-4d74-903c-89aac490c9a5_1.jpg?v=1630668743"
-            alt="img"
-          />
-        </div>
-        <div>
-          <img
-            src="https://huge-shoes-n-bags.myshopify.com/cdn/shop/files/2_ce2c5d79-fe9d-4d74-903c-89aac490c9a5_1.jpg?v=1630668743"
-            alt="img"
-          />
-        </div>
-        <div>
-          <img
-            src="https://huge-shoes-n-bags.myshopify.com/cdn/shop/files/2_ce2c5d79-fe9d-4d74-903c-89aac490c9a5_1.jpg?v=1630668743"
-            alt="img"
-          />
-        </div>
+        {sliderDetail?.map((item: any) => (
+          <div key={item?.id}>
+            <Image src={item?.image} alt="img" className="w-full h-screen" sizes="100vw" width={0} height={0} />
+          </div>
+        ))}
       </Carousel>
     </>
   );
