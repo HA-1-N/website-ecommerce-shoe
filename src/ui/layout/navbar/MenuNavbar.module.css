@@ -1,0 +1,63 @@
+.itemNav::after {
+    content: '';
+    display: block;
+    height: 2px;
+    /* Set the height of the underline */
+    width: 0;
+    /* Set the initial width to 0 */
+    background-color: rgb(156 163 175);
+    /* Set the color of the underline */
+    transition: width 0.3s ease;
+    /* Add a transition for a smooth effect */
+}
+
+.itemNav:hover::after {
+    width: 100%;
+    /* When you mouse over the container, widen the underline to 100% */
+}
+
+.listContainer {
+    position: relative;
+}
+
+.listContainer::before {
+    content: "";
+    border: 20px;
+    position: absolute;
+    width: 80px;
+    height: 20px;
+    left: 0;
+    background-color: none;
+}
+
+.itemNav:hover .listItem {
+    transform: translateY(5%);
+    opacity: 1;
+    z-index: 10;
+}
+
+.listItem {
+    opacity: 0;
+    left: -80%;
+    transform: translateY(50%);
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out, display 0.4s ease-in-out;
+    width: 180px;
+    z-index: -10;
+}
+
+.itemChild {
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.itemChild:hover {
+    background-color: rgb(209 213 219);
+}
+
+.itemChild:hover .itemLink {
+    color: #000;
+}
+
+.itemChild .itemLink {
+    transition: color 0.3 ease-in-out;
+}

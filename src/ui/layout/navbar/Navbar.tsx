@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './Navbar.module.css';
 import clsx from 'clsx';
 import MenuNavbar from './MenuNavbar';
+import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
 
 const Navbar = () => {
   return (
@@ -23,11 +24,19 @@ const Navbar = () => {
 
             <div className="flex justify-between items-center">
               <div className="flex justify-between items-center">
-                <Link href="/login">
-                  <span className="text-gray-500 hover:text-black ml-4">Đăng nhập</span>
-                </Link>
+                <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out cursor-pointer">
+                  <FaSearch />
+                </div>
+
                 <Link href="/register">
-                  <span className="text-gray-500 hover:text-black ml-4">Đăng ký</span>
+                  <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out">
+                    <FaShoppingBag />
+                  </div>
+                </Link>
+                <Link href="/login">
+                  <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
+                    <FaUser />
+                  </div>
                 </Link>
               </div>
             </div>

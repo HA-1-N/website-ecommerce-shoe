@@ -1,9 +1,10 @@
 'use client';
 
 import { getBannerData } from '@/lib/api/banner.api';
+import { CardSkeleton } from '@/ui/skeleton';
 import { Carousel } from 'antd';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -33,13 +34,15 @@ const HomeSlider = () => {
   };
   return (
     <>
-      <Carousel afterChange={onChange} autoplay>
-        {sliderDetail?.map((item: any) => (
-          <div key={item?.id}>
-            <Image src={item?.image} alt="img" className="w-full h-screen" sizes="100vw" width={0} height={0} />
-          </div>
-        ))}
-      </Carousel>
+      <Suspense fallback={<CardSkeleton />}>
+        <Carousel afterChange={onChange} autoplay>
+          {sliderDetail?.map((item: any) => (
+            <div key={item?.id}>
+              <Image src={item?.image} alt="img" className="w-full h-screen" sizes="100vw" width={0} height={0} />
+            </div>
+          ))}
+        </Carousel>
+      </Suspense>
     </>
   );
 };
