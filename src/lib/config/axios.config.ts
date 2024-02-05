@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 const HTTP_SERVICE = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: process.env.BASE_URL || 'http://localhost:8088/api',
   headers: {
     //  Authorization: `<Your Auth Token>`,
     'Content-Type': 'application/json',

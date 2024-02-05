@@ -1,29 +1,48 @@
+'use client';
+
 import { Tabs, TabsProps } from 'antd';
-import React from 'react';
-import NewArrivalProduct from './NewArrivalProduct';
+import React, { useEffect, useState } from 'react';
+import NewArrivalProduct from './HotListProduct';
+import { filterHotCategoryApi } from '@/lib/api/home.api';
+import HotListProduct from './HotListProduct';
 
 const HotProduct = () => {
   const { TabPane } = Tabs;
-  const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: 'New arrival',
-      children: <NewArrivalProduct />,
-    },
-    {
-      key: '2',
-      label: 'Trending',
-      children: 'Content of Tab Pane 2',
-    },
-    {
-      key: '3',
-      label: 'Best sellers',
-      children: 'Content of Tab Pane 3',
-    },
-  ];
-  const onChange = (key: string) => {
+
+  const [id, setId] = useState<number | null>(null);
+  const [hotCategory, setHotCategory] = useState<any>([]);
+  const filterHotCategory = async () => {
+    const params = {
+      page: 0,
+      size: 100000,
+    };
+    const body = {
+      id: id,
+    };
+
+    try {
+      const res = await filterHotCategoryApi(body, params);
+      setHotCategory(res?.data);
+    } catch (error) {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    filterHotCategory();
+  }, []);
+
+  const items: TabsProps['items'] =
+    hotCategory?.map((item: any) => ({
+      key: item?.id,
+      label: item?.name,
+      children: <HotListProduct products={item?.products} hotCategory={item?.name} />,
+    })) || [];
+
+  const onChange = (key: any) => {
     console.log(key);
   };
+
   return (
     <>
       <div className="my-4">
@@ -35,7 +54,7 @@ const HotProduct = () => {
           <div className="container">
             <Tabs
               size="large"
-              defaultActiveKey="1"
+              defaultActiveKey={hotCategory[0]?.id}
               items={items}
               onChange={onChange}
               className="flex justify-center items-center"

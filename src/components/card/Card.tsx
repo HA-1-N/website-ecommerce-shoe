@@ -7,34 +7,48 @@ import Image from 'next/image';
 
 import styles from './Card.module.css';
 import clsx from 'clsx';
+import HotCategoryCard from './HotCategoryCard';
 
-interface CardComponentProps {}
+interface CardComponentProps {
+  link?: string;
+  images?: any;
+  title?: string;
+  price?: string;
+  liked?: boolean;
+  hotCategory?: string;
+}
 
 const CardComponent = (props: CardComponentProps) => {
-  const {} = props;
+  const { link, images, liked, price, title, hotCategory } = props;
+
+  console.log('hotCategory', hotCategory);
 
   return (
     <>
       <div className={clsx(styles.productWrappersOne)}>
         <div className={clsx(styles.thumb)}>
           <Link href={'#'} className={clsx(styles.imageLink)}>
-            <img
-              src="https://andit.co/projects/html/andshop/andshop_frontend/assets/img/product-image/product1.png"
+            <Image
+              src={images[0]?.url}
               alt="image1"
-              className={clsx(styles.image)}
+              className={clsx(styles.image, 'w-full h-full')}
               width={0}
               height={0}
+              sizes="100vw"
             />
-            <img
-              src="https://andit.co/projects/html/andshop/andshop_frontend/assets/img/product-image/product2.png"
+            <Image
+              src={images[1]?.url}
               alt="image2"
-              className={clsx(styles.imageHover)}
+              className={clsx(styles.imageHover, 'w-full h-full')}
               width={0}
               height={0}
+              sizes="100vw"
             />
           </Link>
           <span className={clsx(styles.badges)}>
-            <span className={clsx(styles.new)}>New</span>
+            <span className={clsx(styles.new)}>
+              <HotCategoryCard hotCategory={hotCategory} />
+            </span>
           </span>
           <div className={clsx(styles.actions)}>
             <Link href={'#'} className={clsx(styles.action, styles.wishlist)}>
@@ -54,7 +68,7 @@ const CardComponent = (props: CardComponentProps) => {
         <div className={clsx(styles.content)}>
           <h5 className={clsx(styles.title)}>
             <Link href={'#'} className={clsx(styles.titleLink)}>
-              Blue Dress For Women
+              {title}
             </Link>
           </h5>
           <span className={clsx(styles.price)}>
