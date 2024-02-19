@@ -2,13 +2,7 @@
 
 const generateImageDomains = () => {
   // Logic để sinh ra danh sách các domain dựa trên nhu cầu của bạn
-  const domains = [
-    'www.google.com',
-    'example.com',
-    'res.cloudinary.com',
-    'huge-shoes-n-bags.myshopify.com',
-    'andit.co',
-  ];
+  const domains = ['www.google.com', 'res.cloudinary.com'];
   return domains;
 };
 
