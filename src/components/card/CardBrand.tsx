@@ -18,12 +18,7 @@ const CardBrand = (props: CardBrandModels) => {
           <Image alt={name} src={url} width={0} height={0} sizes="100vw" className={clsx(styles.image)} />
         </div>
 
-        <div
-          className="absolute top-0 w-full h-full"
-          style={{
-            background: 'rgba(0, 0, 0, 0.5)',
-          }}
-        >
+        <div className={clsx(styles.boxTitle, 'absolute top-0 w-full h-full')}>
           <h1 style={{ transform: 'translateY(50%)' }} className="text-white h-full text-center font-black text-4xl">
             {name}
           </h1>

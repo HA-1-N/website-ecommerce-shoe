@@ -16,3 +16,12 @@
     background-size: cover;
     object-fit: fill;
 }
+
+.boxTitle {
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: background-color 0.5s ease-in-out;
+}
+
+.boxImage:hover .boxTitle {
+    background-color: rgba(0, 0, 0, 0.6);
+}
