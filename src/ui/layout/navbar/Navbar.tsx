@@ -26,7 +26,7 @@ const Navbar = () => {
     <>
       {isOpenModalSearch && <ModalSearch handleClose={handleCloseModalSearch} />}
       <div className={clsx(styles.boxContainer, 'w-full h-16 sm:h-20 lg:h-24')}>
-        <div className="container">
+        <div className="container mx-auto">
           <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
             <div className="flex justify-between items-center">
               <Link href="/">

@@ -7,8 +7,8 @@ import { FaLocationDot } from 'react-icons/fa6';
 const HeaderTop = () => {
   return (
     <>
-      <div className={clsx(styles.boxContainer, 'bg-stone-100 w-full h-8 block text-center')}>
-        <div className="container text-center">
+      <div className={clsx(styles.boxContainer, 'bg-stone-100 w-full h-8 block')}>
+        <div className="container mx-auto">
           <div className="flex justify-between items-center h-8">
             <div className="flex justify-between items-center">
               <FaPhoneVolume />
