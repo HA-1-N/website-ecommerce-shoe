@@ -22,6 +22,7 @@ const HotListProduct = (props: HotListProductProps) => {
                 images={item?.productImages}
                 title={item?.name}
                 price={item?.price}
+                id={item?.id}
               />
             </Suspense>
           </Col>

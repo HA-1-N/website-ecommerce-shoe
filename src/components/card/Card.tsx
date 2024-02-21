@@ -8,6 +8,7 @@ import Image from 'next/image';
 import styles from './Card.module.css';
 import clsx from 'clsx';
 import HotCategoryCard from './HotCategoryCard';
+import { useRouter } from 'next/router';
 
 interface CardComponentProps {
   link?: string;
@@ -16,18 +17,17 @@ interface CardComponentProps {
   price?: string;
   liked?: boolean;
   hotCategory?: string;
+  id?: number;
 }
 
 const CardComponent = (props: CardComponentProps) => {
-  const { link, images, liked, price, title, hotCategory } = props;
-
-  console.log('hotCategory', hotCategory);
+  const { link, images, liked, price, title, hotCategory, id } = props;
 
   return (
     <>
       <div className={clsx(styles.productWrappersOne)}>
         <div className={clsx(styles.thumb)}>
-          <Link href={'#'} className={clsx(styles.imageLink)}>
+          <Link href={`/products/${id}`} className={clsx(styles.imageLink)}>
             <Image
               src={images[0]?.url}
               alt="image1"
@@ -67,7 +67,7 @@ const CardComponent = (props: CardComponentProps) => {
         </div>
         <div className={clsx(styles.content)}>
           <h5 className={clsx(styles.title)}>
-            <Link href={'#'} className={clsx(styles.titleLink)}>
+            <Link href={`/products/${id}`} className={clsx(styles.titleLink)}>
               {title}
             </Link>
           </h5>

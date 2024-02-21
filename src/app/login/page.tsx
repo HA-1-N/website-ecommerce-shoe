@@ -4,11 +4,18 @@ import { CardsSkeleton } from '@/ui/skeleton';
 import React, { Suspense } from 'react';
 
 const Login = () => {
+  const data = [
+    {
+      name: 'Home',
+      href: '/',
+    },
+  ];
+
   return (
     <>
       <div>
         <Suspense fallback={<CardsSkeleton />}>
-          <CommonHeaderContent title="Account" currentPage="Login" />
+          <CommonHeaderContent data={data} title="Account" currentPage="Login" />
           <FormLogin />
         </Suspense>
       </div>

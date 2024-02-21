@@ -6,10 +6,11 @@ interface CommonHeaderContentProps {
   ref?: string;
   title?: string;
   currentPage?: string;
+  data?: any;
 }
 
 const CommonHeaderContent = (props: CommonHeaderContentProps) => {
-  const { title, currentPage } = props;
+  const { title, currentPage, data } = props;
 
   return (
     <>
@@ -17,10 +18,16 @@ const CommonHeaderContent = (props: CommonHeaderContentProps) => {
         <div className="">
           <h1 className="text-white text-center text-3xl font-bold">{title}</h1>
           <div className="text-white text-center">
-            <Link href={'/'}>
-              <span className="transition duration-300 ease-out hover:ease-in hover:text-orange-400">Home</span>
-            </Link>
-            <span className="mx-4">/</span>
+            {data?.map((item: any, index: number) => (
+              <>
+                <Link href={item?.href} key={index}>
+                  <span className="transition duration-300 ease-out hover:ease-in hover:text-orange-400">
+                    {item?.name}
+                  </span>
+                </Link>
+                <span className="mx-4">/</span>
+              </>
+            ))}
             <span>{currentPage}</span>
           </div>
         </div>

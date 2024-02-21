@@ -8,7 +8,7 @@ const Footer = () => {
     <>
       <div className="bg-gray-100 px-16 py-8">
         <Row gutter={[0, 8]}>
-          <Col span={4}>
+          <Col span={4} xs={24} md={12} xl={4} lg={4}>
             <div>
               <h1 className="text-xl font-bold">Social</h1>
               <ul className="mt-8 text-base text-gray-600">
@@ -39,7 +39,7 @@ const Footer = () => {
               </ul>
             </div>
           </Col>
-          <Col span={4}>
+          <Col span={4} xs={24} md={12} xl={4} lg={4}>
             {' '}
             <div>
               <h1 className="text-xl font-bold">Contact</h1>
@@ -59,7 +59,7 @@ const Footer = () => {
               </ul>
             </div>
           </Col>
-          <Col span={4}>
+          <Col span={4} xs={24} md={12} xl={4} lg={4}>
             <div>
               <h1 className="text-xl font-bold">About</h1>
               <ul className="mt-8 text-base">
@@ -78,7 +78,7 @@ const Footer = () => {
               </ul>
             </div>
           </Col>
-          <Col span={4}>
+          <Col span={4} xs={24} md={12} xl={4} lg={4}>
             <div>
               <h1 className="text-xl font-bold">Customer Care</h1>
               <ul className="mt-8 text-base">
@@ -94,7 +94,7 @@ const Footer = () => {
               </ul>
             </div>
           </Col>
-          <Col span={4}>
+          <Col span={4} xs={24} md={12} xl={4} lg={4}>
             <div>
               <h1 className="text-xl font-bold">Our Information</h1>
               <ul className="mt-8 text-base">
@@ -113,7 +113,7 @@ const Footer = () => {
               </ul>
             </div>
           </Col>
-          <Col span={4}>
+          <Col span={4} xs={24} md={12} xl={4} lg={4}>
             <div>
               <h1 className="text-xl font-bold">Top Categories</h1>
               <ul className="mt-8 text-base">
