@@ -9,8 +9,8 @@ const ProductDetailPage = () => {
       href: '/',
     },
     {
-      name: 'Product',
-      href: '/products',
+      name: 'Products',
+      href: '/products/search',
     },
   ];
 

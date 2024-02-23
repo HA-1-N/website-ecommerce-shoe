@@ -14,7 +14,7 @@ interface CardComponentProps {
   link?: string;
   images?: any;
   title?: string;
-  price?: string;
+  price?: number;
   liked?: boolean;
   hotCategory?: string;
   id?: number;

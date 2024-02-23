@@ -93,3 +93,15 @@ export interface FilterProductQuantityModels {
   colorId?: number | null;
   status?: number | null;
 }
+
+// filter product website
+export interface FilterProductWebsiteModels {
+  name?: string | null;
+  categoryId?: number[] | null;
+  brandId?: number[] | null;
+  sizeId?: number[] | null;
+  colorId?: number[] | null;
+  minPrice?: number | null;
+  maxPrice?: number | null;
+  status: number | null;
+}

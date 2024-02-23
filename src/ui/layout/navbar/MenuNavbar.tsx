@@ -16,7 +16,7 @@ const MenuNavbar = () => {
           <div className={clsx(styles.listContainer)}>
             <ul className={clsx(styles.listItem, 'absolute bg-white shadow-md rounded-md mt-2 z-10')}>
               <li className={clsx(styles.itemChild, 'py-2 px-4 hover:bg-gray-300')}>
-                <Link href={'#'} className={clsx(styles.itemLink, 'text-gray-500')}>
+                <Link href={'/products/search'} className={clsx(styles.itemLink, 'text-gray-500')}>
                   All Product
                 </Link>
               </li>
