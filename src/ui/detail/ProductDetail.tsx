@@ -10,46 +10,80 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import styles from './ProductDetail.module.scss';
-import { FaCheck } from 'react-icons/fa';
+import styles from './ProductDetail.module.css';
+import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa';
 import clsx from 'clsx';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const ProductDetail = () => {
   const params = useParams();
   const getId = Number(params.id);
 
   const [productDetail, setProductDetail] = useState<ProductModels | null>(null);
-  const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels | null>(null);
+  const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels[]>([]);
   const [listProductImage, setListProductImage] = useState<any[]>([]);
-  console.log('listProductImage', listProductImage);
 
+  const [listSizeColor, setListSizeColor] = useState<any[]>([]);
   const [listColor, setListColor] = useState<ColorModels[]>([]);
-  const [listSize, setListSize] = useState<SizeModel[]>([]);
-
   const [color, setColor] = useState<ColorModels | null>(null);
   const [size, setSize] = useState<SizeModel | null>(null);
+
+  const getImagesBySizeAndColor = (
+    productQuantities: ProductQuantityModels[],
+    size: SizeModel | null,
+    color: ColorModels,
+  ) => {
+    const images: any = [];
+    productQuantities?.forEach((item: ProductQuantityModels) => {
+      if (item?.size?.name === size?.name && item?.color?.name === color?.name) {
+        images.push(item?.productQuantityImages);
+      }
+    });
+
+    return images.flat();
+  };
 
   const getProductById = async () => {
     try {
       const res = await getProductByIdApi(getId);
-      console.log('res', res);
-
       const productQuantities = res.data?.productQuantities;
-      const getListColor = productQuantities?.map((item: ProductQuantityModels) => item?.color);
-      const getListSize = productQuantities
-        ?.filter((item: ProductQuantityModels) => getListColor?.includes(item?.color))
-        ?.map((item: ProductQuantityModels) => item?.size);
-      const newListColor = removeDuplicates(getListColor);
-      const newListSize = removeDuplicates(getListSize);
-      // const getListImage = productQuantities?.productQuantityImages[0];
 
-      // console.log('getListImage', getListImage);
+      const sizeColorArr = productQuantities?.map((item: ProductQuantityModels) => ({
+        size: item?.size,
+        color: item?.color,
+      }));
 
-      // setListProductImage(getListImage[0]);
-      setListColor(newListColor);
-      setColor(newListColor[0]);
-      setListSize(newListSize);
-      setSize(newListSize[0]);
+      const transformedDataSizeColor = sizeColorArr.reduce((acc: any, item: any) => {
+        const existingItem = acc.find((i: any) => i.color.id === item.color.id);
+
+        if (existingItem) {
+          existingItem.size.push(item.size);
+        } else {
+          acc.push({
+            color: item.color,
+            size: [item.size],
+          });
+        }
+
+        return acc;
+      }, []);
+
+      setListSizeColor(transformedDataSizeColor);
+
+      const getListColor = transformedDataSizeColor?.map((item: any) => item.color);
+      const getSizeByColor = transformedDataSizeColor
+        ?.filter((item: any) => item.color.id === getListColor[0]?.id)
+        ?.map((item: any) => item.size)
+        ?.flat();
+
+      const getListImage = getImagesBySizeAndColor(productQuantities, getSizeByColor[0], getListColor[0]);
+
+      setProductQuantitiesDetail(productQuantities);
+      setListProductImage(getListImage);
+      setListColor(getListColor);
+      setColor(getListColor[0]);
+      setSize(getSizeByColor[0]);
       setProductQuantitiesDetail(productQuantities);
       setProductDetail(res.data);
     } catch (err) {
@@ -71,11 +105,29 @@ const ProductDetail = () => {
     getAllColor();
   }, []);
 
+  const NextArrow = (props: any) => {
+    const { className, onClick } = props;
+    return (
+      <div className={className} onClick={onClick}>
+        <FaArrowRight style={{ color: '#000' }} />
+      </div>
+    );
+  };
+
+  const PrevArrow = (props: any) => {
+    const { className, onClick } = props;
+    return (
+      <div className={className} onClick={onClick}>
+        <FaArrowLeft style={{ color: '#000' }} />
+      </div>
+    );
+  };
+
   const settings = {
     customPaging: function (i: any) {
       return (
         <a>
-          <Image src={''} alt="image1" className={''} width={0} height={0} sizes="100vw" />
+          <img src={listProductImage[i + 1]?.url} alt="image1" />
         </a>
       );
     },
@@ -85,6 +137,15 @@ const ProductDetail = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    arrow: true,
+  };
+
+  const handleChangeColor = (item: ColorModels) => {
+    const getListImage = getImagesBySizeAndColor(productQuantitiesDetail, size, item);
+    setListProductImage(getListImage);
+    setColor(item);
   };
 
   return (
@@ -93,8 +154,21 @@ const ProductDetail = () => {
         <div className="container mx-auto px-4 py-8">
           <Row gutter={[16, 16]}>
             <Col className="gutter-row" span={12}>
-              <div className="slider-container">
-                <Slider {...settings}></Slider>
+              <div className="slider-container ">
+                <Slider {...settings}>
+                  {listProductImage?.map((item: any, index: number) => (
+                    <div key={index} className={clsx(styles.boxImage, 'slider-item')}>
+                      <Image
+                        src={item?.url}
+                        alt="image1"
+                        className={clsx(styles.sliderImage)}
+                        width={500}
+                        height={500}
+                        sizes="100vw"
+                      />
+                    </div>
+                  ))}
+                </Slider>
               </div>
             </Col>
             <Col className="gutter-row" span={12}>
@@ -120,10 +194,16 @@ const ProductDetail = () => {
                       style={{ background: `${item?.code}` }}
                       key={index}
                       className="btn-color mr-2 cursor-pointer h-8 w-8 rounded-full text-center border-2 border-solid border-gray-300"
-                      onClick={() => setColor(item)}
+                      onClick={() => handleChangeColor(item)}
                     >
                       {color?.name === item?.name ? (
-                        <FaCheck style={{ color: 'rgb(249 115 22)', textAlign: 'center', width: '100%' }} />
+                        <FaCheck
+                          style={{
+                            color: item?.code === '#fff' ? 'rgb(249 115 22)' : '#fff',
+                            textAlign: 'center',
+                            width: '100%',
+                          }}
+                        />
                       ) : null}
                     </button>
                   ))}
@@ -134,21 +214,25 @@ const ProductDetail = () => {
                   <span className="ml-2 text-lg font-bold">{size?.name}</span>
                 </div>
                 <div className="mt-2 flex items-center">
-                  {listSize.map((item: SizeModel, index: number) => (
-                    <button
-                      key={index}
-                      className={clsx(
-                        'btn-size mr-2 cursor-pointer h-8 w-8 rounded-full text-center border-2 border-solid border-gray-300',
-                        {
-                          'bg-gray-300': size?.name === item?.name,
-                          'bg-white': size?.name !== item?.name,
-                        },
-                      )}
-                      onClick={() => setSize(item)}
-                    >
-                      {item?.name}
-                    </button>
-                  ))}
+                  {listSizeColor
+                    ?.filter((item: any) => item?.color?.name === color?.name)
+                    ?.map((item: any) =>
+                      item?.size.map((i: SizeModel, index: number) => (
+                        <button
+                          key={index}
+                          className={clsx(
+                            'btn-size mr-2 cursor-pointer h-8 w-8 rounded-full text-center border-2 border-solid border-gray-300',
+                            {
+                              'bg-gray-300': i?.name === size?.name,
+                              'bg-white': i?.name !== size?.name,
+                            },
+                          )}
+                          onClick={() => setSize(i)}
+                        >
+                          {i?.name}
+                        </button>
+                      )),
+                    )}
                 </div>
               </div>
 
@@ -163,6 +247,20 @@ const ProductDetail = () => {
                 </div>
                 <div>
                   <Button>Add to cart</Button>
+                </div>
+              </div>
+
+              <hr className="my-4" />
+
+              <div>
+                <div className="flex items-center">
+                  <h5 className="text-lg">Category:</h5>
+                  <span className="text-lg ml-2 font-bold">{productDetail?.category?.name}</span>
+                </div>
+
+                <div className="flex items-center mt-2">
+                  <h5 className="text-lg">Brand:</h5>
+                  <span className="text-lg ml-2 font-bold">{productDetail?.brand?.name}</span>
                 </div>
               </div>
             </Col>

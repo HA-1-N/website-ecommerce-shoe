@@ -151,6 +151,10 @@ const FilterSidebar = () => {
   const onChangeSize: GetProp<typeof Checkbox.Group, 'onChange'> = useDebouncedCallback((checkedValues) => {
     setSize(checkedValues);
     const params = new URLSearchParams(searchParams);
+    const listSizeId = checkedValues?.length > 0 ? checkedValues?.map((item: any) => parseInt(item)) : null;
+    const newFormSearch = { ...formSearch, sizeId: listSizeId };
+    filterProduct(newFormSearch, queryParams);
+    dispatch(changeFormSearch(newFormSearch));
     if (checkedValues.length > 0) {
       params.set('size', checkedValues.join(','));
     } else {
@@ -162,6 +166,10 @@ const FilterSidebar = () => {
   const onChangeColor: GetProp<typeof Checkbox.Group, 'onChange'> = useDebouncedCallback((checkedValues) => {
     setColor(checkedValues);
     const params = new URLSearchParams(searchParams);
+    const listColorId = checkedValues?.length > 0 ? checkedValues?.map((item: any) => parseInt(item)) : null;
+    const newFormSearch = { ...formSearch, colorId: listColorId };
+    filterProduct(newFormSearch, queryParams);
+    dispatch(changeFormSearch(newFormSearch));
     if (checkedValues.length > 0) {
       params.set('color', checkedValues.join(','));
     } else {
