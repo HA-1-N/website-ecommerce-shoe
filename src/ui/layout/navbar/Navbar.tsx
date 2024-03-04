@@ -8,9 +8,12 @@ import clsx from 'clsx';
 import MenuNavbar from './MenuNavbar';
 import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
 import ModalSearch from '../modal/ModalSearch';
+import { getLocalStorageId } from '@/lib/utils/auth.util';
 
 const Navbar = () => {
   const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
+
+  const getUserId = getLocalStorageId();
 
   const handleOpenModalSearch = () => {
     setIsOpenModalSearch(true);
@@ -52,11 +55,20 @@ const Navbar = () => {
                     <FaShoppingBag />
                   </div>
                 </Link>
-                <Link href="/login">
-                  <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
-                    <FaUser />
-                  </div>
-                </Link>
+                {getUserId !== null ? (
+                  <Link href="/profile">
+                    <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
+                      {/* <Image /> */}
+                      abc
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href="/login">
+                    <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
+                      <FaUser />
+                    </div>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

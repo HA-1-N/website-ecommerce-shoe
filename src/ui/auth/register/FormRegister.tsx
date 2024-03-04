@@ -1,13 +1,18 @@
 'use client';
 
 import { Button, Col, DatePicker, Form, Input, Row, Select, Space, Upload } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-
+import { CloseOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+import { registerApi } from '@/lib/api/auth.api';
+import { useRouter } from 'next/navigation';
 const { Option } = Select;
 
 const FormRegister = () => {
   const [form] = Form.useForm();
+
+  const router = useRouter();
 
   const initialValues = {
     name: '',
@@ -20,6 +25,8 @@ const FormRegister = () => {
     roleIds: '',
     prefix: '+84',
   };
+
+  const [uploadedImage, setUploadedImage] = useState<any>(null);
 
   const config = {
     rules: [{ type: 'object' as const, required: true, message: 'Please select time!' }],
@@ -34,8 +41,35 @@ const FormRegister = () => {
     </Form.Item>
   );
 
+  const buildBody = (values: any) => {
+    const body = {
+      name: values?.name,
+      email: values?.email,
+      password: values?.password,
+      age: Number(values?.age),
+      phone: values?.phone,
+      gender: values?.gender,
+      dateOfBirth: dayjs(values?.dateOfBirth).format('YYYY-MM-DD'),
+      roleIds: [2],
+    };
+    return body;
+  };
+
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    // console.log('Success:', values);
+    const formData = new FormData();
+    const body = buildBody(values);
+    formData.append('data', new Blob([JSON.stringify(body)], { type: 'application/json' }));
+    const getImageFile: any = values?.image;
+    const file = getImageFile?.file?.originFileObj;
+    formData.append('file', file as File);
+    registerApi(formData)
+      .then((res) => {
+        if (res) {
+          router.push('/login');
+        }
+      })
+      .catch(() => {});
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -43,11 +77,67 @@ const FormRegister = () => {
   };
 
   const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
+      form.setFieldValue('image', e);
       return e;
     }
-    return e?.fileList;
+    if (e.file.originFileObj) {
+      form.setFieldValue('image', e);
+    }
+    return e && e.fileList;
+  };
+
+  const handleChange = (info: any) => {
+    if (info.file.originFileObj) {
+      const imageUrl = URL.createObjectURL(info.file.originFileObj);
+      setUploadedImage(imageUrl);
+    }
+  };
+
+  const checkImageSizeAndRatio = (file: File): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = window.URL.createObjectURL(file);
+
+      image.onload = () => {
+        // Kiểm tra kích thước max 5mb
+        if (file.size / 1024 / 1024 > 5) {
+          // Thông báo khi hình ảnh quá lớn
+          //  dispatch(
+          //    openNotification({
+          //      type: 'error',
+          //      message: 'Hình ảnh phải nhỏ hơn 5Mb',
+          //    }),
+          //  );
+          reject('Hình ảnh quá lớn');
+        } else {
+          resolve();
+        }
+      };
+
+      image.onerror = () => {
+        // Thông báo khi không thể đọc hình ảnh
+        //  dispatch(
+        //    openNotification({
+        //      type: 'error',
+        //      message: 'Không thể đọc hình ảnh',
+        //    }),
+        //  );
+        reject('Không thể đọc hình ảnh');
+      };
+    });
+  };
+
+  const handleDeleteImage = () => {
+    setUploadedImage(null);
+    form.setFieldValue('image', '');
+  };
+
+  const dummyRequest = (props: any) => {
+    const { file, onSuccess } = props;
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
   };
 
   return (
@@ -67,6 +157,7 @@ const FormRegister = () => {
               autoComplete="off"
               colon={false}
               layout="vertical"
+              form={form}
             >
               <Row gutter={[32, 8]}>
                 <Col xs={24} md={24} sm={24} lg={12}>
@@ -80,7 +171,7 @@ const FormRegister = () => {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder={'Enter your name'} />
                   </Form.Item>
                 </Col>
 
@@ -99,7 +190,7 @@ const FormRegister = () => {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder={'Enter your email'} />
                   </Form.Item>
                 </Col>
 
@@ -115,7 +206,7 @@ const FormRegister = () => {
                     ]}
                     hasFeedback
                   >
-                    <Input.Password />
+                    <Input.Password placeholder={'Enter your password'} />
                   </Form.Item>
                 </Col>
 
@@ -140,13 +231,13 @@ const FormRegister = () => {
                       }),
                     ]}
                   >
-                    <Input.Password />
+                    <Input.Password placeholder={'Enter your confirm password'} />
                   </Form.Item>
                 </Col>
 
                 <Col span={12}>
                   <Form.Item name="age" label="Age" rules={[{ required: true, message: 'Please input your age!' }]}>
-                    <Input style={{ width: '100%' }} />
+                    <Input style={{ width: '100%' }} placeholder={'Enter your age'} />
                   </Form.Item>
                 </Col>
 
@@ -156,7 +247,7 @@ const FormRegister = () => {
                     label="Phone Number"
                     rules={[{ required: true, message: 'Please input your phone number!' }]}
                   >
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} placeholder={'Enter your phone'} />
                   </Form.Item>
                 </Col>
 
@@ -167,9 +258,9 @@ const FormRegister = () => {
                     rules={[{ required: true, message: 'Please select gender!' }]}
                   >
                     <Select placeholder="select your gender" allowClear>
-                      <Option value="male">Male</Option>
-                      <Option value="female">Female</Option>
-                      <Option value="other">Other</Option>
+                      <Option value="M">Male</Option>
+                      <Option value="F">Female</Option>
+                      <Option value="O">Other</Option>
                     </Select>
                   </Form.Item>
                 </Col>
@@ -181,26 +272,55 @@ const FormRegister = () => {
                 </Col>
 
                 <Col span={24}>
-                  <Form.Item label="Dragger">
+                  <Form.Item
+                    label="Image"
+                    name={'image'}
+                    rules={[{ required: true, message: 'Vui lòng nhập hình ảnh!' }]}
+                  >
                     <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-                      <Upload.Dragger name="files" action="/upload.do">
-                        <p className="ant-upload-drag-icon">
-                          <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                      <Upload.Dragger
+                        showUploadList={false}
+                        onChange={handleChange}
+                        beforeUpload={checkImageSizeAndRatio}
+                        accept="image/*"
+                        customRequest={dummyRequest}
+                      >
+                        {uploadedImage ? (
+                          <div style={{ position: 'relative' }}>
+                            <img src={uploadedImage} alt="Uploaded" style={{ maxWidth: '100%' }} />
+                            <Button
+                              shape="circle"
+                              danger
+                              ghost
+                              size="small"
+                              icon={<CloseOutlined />}
+                              style={{ position: 'absolute', top: 0, right: 0, zIndex: 2 }}
+                              onClick={handleDeleteImage}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <p className="ant-upload-text">Chọn ảnh để tải lên</p>
+                            <p className="ant-upload-drag-icon">
+                              <UploadOutlined />
+                            </p>
+                            <p className="ant-upload-text">Định dạng JPEG, PNG, JPG</p>
+                            <p className="ant-upload-text">Dung lượng tối đa 5MB</p>
+                            <p className="ant-upload-text">Tỷ lệ phù hợp 3:2</p>
+                          </>
+                        )}
                       </Upload.Dragger>
                     </Form.Item>
                   </Form.Item>
                 </Col>
               </Row>
 
-              <Form.Item wrapperCol={{ span: 24, offset: 6 }}>
+              <Form.Item>
                 <Space>
                   <Button type="default" htmlType="submit">
                     Submit
                   </Button>
-                  <Button htmlType="reset">reset</Button>
+                  <Button htmlType="reset">Reset</Button>
                 </Space>
               </Form.Item>
             </Form>
