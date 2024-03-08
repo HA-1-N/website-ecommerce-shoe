@@ -22,3 +22,7 @@ export const getCurrentUserByIdApi = (id: number) => {
 export const changePasswordApi = (data: ChangePasswordModel) => {
   return HTTP_SERVICE.post('/auth/change-password', data);
 };
+
+export const refreshTokenApi = (data: any) => {
+  return HTTP_SERVICE.post('/auth/refresh-token');
+};

@@ -50,9 +50,15 @@ const Navbar = () => {
                   <FaSearch />
                 </div>
 
-                <Link href="/register">
-                  <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out">
+                <Link href="/cart">
+                  <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out relative">
                     <FaShoppingBag />
+                    <div
+                      className="absolute text-white text-xs bg-orange-500 px-1.5 left-2/4"
+                      style={{ borderRadius: '50%', top: '-4px' }}
+                    >
+                      1
+                    </div>
                   </div>
                 </Link>
                 {getUserId !== null ? (

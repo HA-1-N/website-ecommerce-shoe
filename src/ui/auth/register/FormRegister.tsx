@@ -51,6 +51,7 @@ const FormRegister = () => {
       gender: values?.gender,
       dateOfBirth: dayjs(values?.dateOfBirth).format('YYYY-MM-DD'),
       roleIds: [2],
+      prefix: values?.prefix,
     };
     return body;
   };
@@ -59,17 +60,19 @@ const FormRegister = () => {
     // console.log('Success:', values);
     const formData = new FormData();
     const body = buildBody(values);
+    // console.log('body', body);
+
     formData.append('data', new Blob([JSON.stringify(body)], { type: 'application/json' }));
     const getImageFile: any = values?.image;
     const file = getImageFile?.file?.originFileObj;
     formData.append('file', file as File);
-    registerApi(formData)
-      .then((res) => {
-        if (res) {
-          router.push('/login');
-        }
-      })
-      .catch(() => {});
+    // registerApi(formData)
+    //   .then((res) => {
+    //     if (res) {
+    //       router.push('/login');
+    //     }
+    //   })
+    //   .catch(() => {});
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -266,7 +269,7 @@ const FormRegister = () => {
                 </Col>
 
                 <Col span={12}>
-                  <Form.Item name="date-picker" label="DatePicker" {...config}>
+                  <Form.Item name="dateOfBirth" label="Date of birth" {...config}>
                     <DatePicker className="w-full" />
                   </Form.Item>
                 </Col>

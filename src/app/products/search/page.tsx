@@ -1,6 +1,7 @@
 import CommonHeaderContent from '@/components/auth/CommonHeaderContent';
 import SearchPage from '@/ui/search/SearchPage';
-import React from 'react';
+import { CardsSkeleton } from '@/ui/skeleton';
+import React, { Suspense } from 'react';
 
 const PageSearch = () => {
   const dataHeaderContent = [
@@ -14,7 +15,9 @@ const PageSearch = () => {
     <>
       <div>
         <CommonHeaderContent data={dataHeaderContent} currentPage={'Products'} />
-        <SearchPage />
+        <Suspense fallback={<CardsSkeleton />}>
+          <SearchPage />
+        </Suspense>
       </div>
     </>
   );

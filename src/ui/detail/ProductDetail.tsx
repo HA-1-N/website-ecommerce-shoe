@@ -5,9 +5,9 @@ import { ColorModels } from '@/lib/model/color.model';
 import { ProductModels, ProductQuantityModels } from '@/lib/model/product.model';
 import { SizeModel } from '@/lib/model/size.model';
 import { removeDuplicates } from '@/lib/utils/array.util';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, InputNumber, Row } from 'antd';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import styles from './ProductDetail.module.css';
@@ -15,19 +15,34 @@ import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa';
 import clsx from 'clsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { getLocalStorageId } from '@/lib/utils/auth.util';
+import { addToCartApi } from '@/lib/api/cart.api';
+import { AddToCartModel } from '@/lib/model/cart.model';
 
 const ProductDetail = () => {
   const params = useParams();
+
+  const router = useRouter();
+
   const getId = Number(params.id);
+  const getIdLocalStorage = getLocalStorageId();
 
   const [productDetail, setProductDetail] = useState<ProductModels | null>(null);
+  console.log('productDetail', productDetail);
+
   const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels[]>([]);
   const [listProductImage, setListProductImage] = useState<any[]>([]);
 
   const [listSizeColor, setListSizeColor] = useState<any[]>([]);
   const [listColor, setListColor] = useState<ColorModels[]>([]);
   const [color, setColor] = useState<ColorModels | null>(null);
+  // console.log('color', color);
+
   const [size, setSize] = useState<SizeModel | null>(null);
+  // console.log('size', size);
+
+  const [quantity, setQuantity] = useState<number | null>(1);
+  // console.log('quantity', quantity);
 
   const getImagesBySizeAndColor = (
     productQuantities: ProductQuantityModels[],
@@ -148,6 +163,40 @@ const ProductDetail = () => {
     setColor(item);
   };
 
+  const onChangeQuantity = (value: number | null) => {
+    setQuantity(value);
+  };
+
+  const handleAddToCart = async () => {
+    if (getIdLocalStorage) {
+      // call api add to cart
+      console.log('call api add to cart');
+
+      const body: AddToCartModel = {
+        userId: Number(getIdLocalStorage),
+        productId: Number(productDetail?.id),
+        quantity: quantity,
+        colorId: color?.id,
+        sizeId: size?.id,
+        cartId: null,
+      };
+
+      console.log('body', body);
+
+      addToCartApi(body)
+        .then((res) => {
+          if (res) {
+            console.log('res', res);
+          }
+        })
+        .catch((err) => {
+          console.log('err', err);
+        });
+    } else {
+      router.push('/login');
+    }
+  };
+
   return (
     <>
       <div>
@@ -239,14 +288,14 @@ const ProductDetail = () => {
               <hr className="my-4" />
 
               <div>
-                <div>
+                <div className="flex items-center">
                   <h5 className="text-lg">Số lượng:</h5>
+                  <div className="mt-2 ml-4">
+                    <InputNumber min={1} max={10} value={quantity} onChange={onChangeQuantity} />
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <input type="number" className="w-20 h-8 border-2 border-solid border-gray-300" />
-                </div>
-                <div>
-                  <Button>Add to cart</Button>
+                <div className="mt-4">
+                  <Button onClick={handleAddToCart}>Add to cart</Button>
                 </div>
               </div>
 

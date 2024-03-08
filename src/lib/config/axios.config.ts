@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { getLocalStorageToken } from '../utils/auth.util';
 
 const HTTP_SERVICE = axios.create({
   baseURL: process.env.BASE_URL || 'http://localhost:8088/api',
@@ -13,7 +14,7 @@ const HTTP_SERVICE = axios.create({
 HTTP_SERVICE.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    const accessToken = localStorage && localStorage.getItem('');
+    const accessToken = localStorage && getLocalStorageToken();
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

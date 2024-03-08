@@ -7,7 +7,7 @@ import React from 'react';
 import styles from './FormLogin.module.css';
 import clsx from 'clsx';
 import { loginApi } from '@/lib/api/auth.api';
-import { setLocalStorageId, setLocalStorageToken } from '@/lib/utils/auth.util';
+import { setLocalStorageId, setLocalStorageRefreshToken, setLocalStorageToken } from '@/lib/utils/auth.util';
 import { useAppDispatch } from '@/redux/hook';
 import { getCurrentUserByIdAsync } from '@/redux/feature/auth.slice';
 import { isRejected } from '@reduxjs/toolkit';
@@ -41,6 +41,7 @@ const FormLogin = () => {
         const data = res?.data;
         setLocalStorageToken(data?.token);
         setLocalStorageId(data?.id);
+        setLocalStorageRefreshToken(data?.refreshToken);
 
         const currentUserRes = dispatch(getCurrentUserByIdAsync(data?.id));
 
