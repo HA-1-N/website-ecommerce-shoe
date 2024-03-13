@@ -178,10 +178,7 @@ const ProductDetail = () => {
         quantity: quantity,
         colorId: color?.id,
         sizeId: size?.id,
-        cartId: null,
       };
-
-      console.log('body', body);
 
       addToCartApi(body)
         .then((res) => {

@@ -23,6 +23,15 @@ export const changePasswordApi = (data: ChangePasswordModel) => {
   return HTTP_SERVICE.post('/auth/change-password', data);
 };
 
-export const refreshTokenApi = (data: any) => {
-  return HTTP_SERVICE.post('/auth/refresh-token');
+export const refreshTokenApi = async (data: any) => {
+  const response = await fetch('http://localhost:8088/api/auth/refresh-token', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
 };

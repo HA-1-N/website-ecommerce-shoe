@@ -6,6 +6,7 @@ export interface AuthState {
   authState: boolean;
   loading: boolean;
   error: string | null;
+  countNumberLogin: number;
 }
 
 const initialState: AuthState = {
@@ -13,6 +14,7 @@ const initialState: AuthState = {
   authState: false,
   loading: false,
   error: null,
+  countNumberLogin: 0,
 };
 
 export const getCurrentUserByIdAsync = createAsyncThunk('auth/get-by-id', async (id: number) => {
@@ -31,8 +33,14 @@ export const authSlice = createSlice({
     setCurrentUser: (state, action: PayloadAction<any>) => {
       state.currentUser = action.payload;
     },
+    setIncrementCount: (state) => {
+      return {
+        ...state,
+        countNumberLogin: state.countNumberLogin + 1,
+      };
+    },
   },
 });
 
-export const { setAuthState, setCurrentUser } = authSlice.actions;
+export const { setAuthState, setCurrentUser, setIncrementCount } = authSlice.actions;
 export const authReducer = authSlice.reducer;

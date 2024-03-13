@@ -1,55 +1,64 @@
 import React from 'react';
 import Image from 'next/image';
 import { MdClose } from 'react-icons/md';
+import { Col, Row } from 'antd';
 
-const CardCartItem = () => {
-  return (
-    <>
+interface CardCartItemProps {
+  key: any;
+  productName: string | null | undefined;
+  imageSrc: string | any;
+  productCode?: string | any;
+  quantity?: number | null;
+  color?: string;
+  size?: string | null | undefined;
+  price?: number;
+  cartItemId?: number | null;
+  onRemove?: any;
+}
+
+const CardCartItem = (props: CardCartItemProps) => {
+  const { key, productName, imageSrc, productCode, quantity, color, size, price, onRemove } = props;
+
+  const total = Number(price) * Number(quantity);
+
+  const TitleCartFunct = ({ title, content }: { title?: string; content?: any }) => {
+    return (
       <div>
-        <div className="flex items-center">
-          <div>
-            <Image src={''} alt="image1" className="w-full h-full" width={0} height={0} sizes="100vw" />
-          </div>
-          <div>
-            <div className="flex">
-              <h3 className="text-lg font-semibold">Product Name</h3>
-              <div>
-                <MdClose />
-              </div>
-            </div>
-            <div className="flex">
-              <span>Mã sản phẩm: </span>
-              <span>123456</span>
-            </div>
-
-            <div>
-              <span>Màu sắc: </span>
-              <span>Đen</span>
-            </div>
-
-            <div>
-              <span>Size: </span>
-              <span>42</span>
-            </div>
-
-            <div>
-              <span>Price: </span>
-              <span>123456</span>
-            </div>
-
-            <div>
-              <span>Số lượng: </span>
-              <span>123</span>
-            </div>
-
-            <div>
-              <span>Tổng: </span>
-              <span>123456</span>
-            </div>
-          </div>
-        </div>
+        <span>{title} </span>
+        <span>{content}</span>
       </div>
-    </>
+    );
+  };
+
+  return (
+    <div key={key} className="my-4">
+      <Row gutter={[16, 16]}>
+        <Col span={10}>
+          <div>
+            <Image src={imageSrc} alt="image1" className="w-full h-full" width={0} height={0} sizes="100vw" />
+          </div>
+        </Col>
+
+        <Col span={12}>
+          <div>
+            <h3 className="text-xl font-bold">{productName}</h3>
+
+            <TitleCartFunct title="Mã sản phẩm: " content={productCode} />
+            <TitleCartFunct title="Màu sắc: " content={color} />
+            <TitleCartFunct title="Size: " content={size} />
+            <TitleCartFunct title="Price: " content={price?.toLocaleString()} />
+            <TitleCartFunct title="Số lượng: " content={quantity} />
+            <TitleCartFunct title="Tổng: " content={total?.toLocaleString()} />
+          </div>
+        </Col>
+
+        <Col span={2}>
+          <div className="text-xl cursor-pointer" onClick={onRemove}>
+            <MdClose />
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import { loginApi } from '@/lib/api/auth.api';
 import { setLocalStorageId, setLocalStorageRefreshToken, setLocalStorageToken } from '@/lib/utils/auth.util';
 import { useAppDispatch } from '@/redux/hook';
-import { getCurrentUserByIdAsync } from '@/redux/feature/auth.slice';
+import { getCurrentUserByIdAsync, setIncrementCount } from '@/redux/feature/auth.slice';
 import { isRejected } from '@reduxjs/toolkit';
 import { RoleModel } from '@/lib/model/auth.model';
 import { useRouter } from 'next/navigation';
@@ -53,6 +53,7 @@ const FormLogin = () => {
 
         if (res && codeRoles?.includes('USER')) {
           console.log('login success');
+          dispatch(setIncrementCount());
           router.push('/');
         } else {
           console.log('login error');

@@ -2,18 +2,29 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Navbar.module.css';
 import clsx from 'clsx';
 import MenuNavbar from './MenuNavbar';
 import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
 import ModalSearch from '../modal/ModalSearch';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
+import { useAppSelector } from '@/redux/hook';
 
 const Navbar = () => {
-  const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
+  const getCountNumberLogin = useAppSelector((state) => state.auth.countNumberLogin);
 
-  const getUserId = getLocalStorageId();
+  const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
+  const [userId, setUserId] = React.useState<string | null>(null);
+
+  const getUserId = () => {
+    const getUserIdLocaleStorage = getLocalStorageId();
+    setUserId(getUserIdLocaleStorage);
+  };
+
+  useEffect(() => {
+    getUserId();
+  }, [getCountNumberLogin]);
 
   const handleOpenModalSearch = () => {
     setIsOpenModalSearch(true);
@@ -50,7 +61,7 @@ const Navbar = () => {
                   <FaSearch />
                 </div>
 
-                <Link href="/cart">
+                <Link href={userId ? '/cart' : '/login'}>
                   <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out relative">
                     <FaShoppingBag />
                     <div
@@ -61,7 +72,7 @@ const Navbar = () => {
                     </div>
                   </div>
                 </Link>
-                {getUserId !== null ? (
+                {userId !== null ? (
                   <Link href="/profile">
                     <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
                       {/* <Image /> */}

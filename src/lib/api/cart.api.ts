@@ -8,3 +8,7 @@ export const addToCartApi = (data: AddToCartModel) => {
 export const getCartItemApi = (userId: number) => {
   return HTTP_SERVICE.get(`/cart/get-cart-by-user-id/${userId}`);
 };
+
+export const removeCartItemApi = (data: any) => {
+  return HTTP_SERVICE.post(`/cart/remove-from-cart`, data);
+};

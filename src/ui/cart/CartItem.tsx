@@ -1,31 +1,46 @@
 'use client';
 
 import CardCartItem from '@/components/card/CardCartItem';
-import { getCartItemApi } from '@/lib/api/cart.api';
-import { getLocalStorageId } from '@/lib/utils/auth.util';
-import React, { useEffect } from 'react';
+import { removeCartItemApi } from '@/lib/api/cart.api';
+import { CartItemModel } from '@/lib/model/cart.model';
 
-const CartItem = () => {
-  const getIdUser = getLocalStorageId();
+interface CartItemProps {
+  listCartItem: CartItemModel[];
+  getCartItem: () => Promise<void>;
+}
 
-  const getCartItem = async () => {
-    getCartItemApi(Number(getIdUser))
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+const CartItem = (props: CartItemProps) => {
+  const { listCartItem, getCartItem } = props;
+
+  const handleDeleteCartItem = async (cartItemId?: number | null) => {
+    if (!cartItemId) return;
+
+    try {
+      const res = await removeCartItemApi({ cartItemId });
+      if (res) {
+        getCartItem();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  useEffect(() => {
-    getCartItem();
-  }, []);
 
   return (
     <>
       <div>
-        <CardCartItem />
+        {listCartItem?.map((item: CartItemModel, index: number) => (
+          <CardCartItem
+            productName={item?.product?.name}
+            key={index}
+            productCode={item?.product?.id}
+            color={item?.color?.name}
+            size={item?.size?.name}
+            price={item?.product?.price}
+            quantity={item?.quantity}
+            imageSrc={item?.productImage?.image}
+            onRemove={() => handleDeleteCartItem(item?.id)}
+          />
+        ))}
       </div>
     </>
   );

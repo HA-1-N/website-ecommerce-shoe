@@ -1,6 +1,8 @@
 'use client';
 
+import { refreshTokenApi } from '@/lib/api/auth.api';
 import { getBannerData } from '@/lib/api/banner.api';
+import { getLocalStorageRefreshToken } from '@/lib/utils/auth.util';
 import { CardSkeleton } from '@/ui/skeleton';
 import { Carousel } from 'antd';
 import Image from 'next/image';
@@ -16,13 +18,22 @@ const contentStyle: React.CSSProperties = {
 };
 
 const HomeSlider = () => {
+  const getRefreshToken = getLocalStorageRefreshToken();
+
   const [sliderDetail, setSliderDetail] = useState<[]>([]);
 
   const getBanner = async () => {
     const page = 0;
     const size = 100000;
     const data = await getBannerData(page, size);
-    setSliderDetail(data);
+    // console.log('data', data);
+
+    if (data) {
+      setSliderDetail(data);
+    } else {
+      const res = await refreshTokenApi(getRefreshToken);
+      console.log('res', res);
+    }
   };
 
   useEffect(() => {
