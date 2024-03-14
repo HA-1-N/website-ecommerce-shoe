@@ -10,20 +10,37 @@ import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
 import ModalSearch from '../modal/ModalSearch';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { useAppSelector } from '@/redux/hook';
+import { getCountCartApi } from '@/lib/api/cart.api';
 
 const Navbar = () => {
   const getCountNumberLogin = useAppSelector((state) => state.auth.countNumberLogin);
+  const countCartIncrement = useAppSelector((state) => state.cart.countCartIncrement);
+  const getUserIdLocaleStorage = getLocalStorageId();
 
   const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
   const [userId, setUserId] = React.useState<string | null>(null);
+  const [countCart, setCountCart] = React.useState<number>(0);
 
   const getUserId = () => {
-    const getUserIdLocaleStorage = getLocalStorageId();
     setUserId(getUserIdLocaleStorage);
   };
 
+  const getCountCart = async () => {
+    try {
+      const res = await getCountCartApi(Number(getUserIdLocaleStorage));
+      setCountCart(Number(res?.data));
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    getCountCart();
+  }, [countCartIncrement]);
+
   useEffect(() => {
     getUserId();
+    getCountCart();
   }, [getCountNumberLogin]);
 
   const handleOpenModalSearch = () => {
@@ -68,7 +85,7 @@ const Navbar = () => {
                       className="absolute text-white text-xs bg-orange-500 px-1.5 left-2/4"
                       style={{ borderRadius: '50%', top: '-4px' }}
                     >
-                      1
+                      {countCart}
                     </div>
                   </div>
                 </Link>

@@ -12,3 +12,7 @@ export const getCartItemApi = (userId: number) => {
 export const removeCartItemApi = (data: any) => {
   return HTTP_SERVICE.post(`/cart/remove-from-cart`, data);
 };
+
+export const getCountCartApi = (userId: number) => {
+  return HTTP_SERVICE.get(`/cart/count-cart/${userId}`);
+};

@@ -18,17 +18,19 @@ import 'slick-carousel/slick/slick-theme.css';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { addToCartApi } from '@/lib/api/cart.api';
 import { AddToCartModel } from '@/lib/model/cart.model';
+import { useAppDispatch } from '@/redux/hook';
+import { setCountCart } from '@/redux/feature/cart.slice';
 
 const ProductDetail = () => {
   const params = useParams();
-
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const getId = Number(params.id);
   const getIdLocalStorage = getLocalStorageId();
 
   const [productDetail, setProductDetail] = useState<ProductModels | null>(null);
-  console.log('productDetail', productDetail);
+  // console.log('productDetail', productDetail);
 
   const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels[]>([]);
   const [listProductImage, setListProductImage] = useState<any[]>([]);
@@ -184,6 +186,7 @@ const ProductDetail = () => {
         .then((res) => {
           if (res) {
             console.log('res', res);
+            dispatch(setCountCart());
           }
         })
         .catch((err) => {

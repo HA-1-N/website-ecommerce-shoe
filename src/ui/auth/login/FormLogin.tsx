@@ -13,6 +13,7 @@ import { getCurrentUserByIdAsync, setIncrementCount } from '@/redux/feature/auth
 import { isRejected } from '@reduxjs/toolkit';
 import { RoleModel } from '@/lib/model/auth.model';
 import { useRouter } from 'next/navigation';
+import { setCountCart } from '@/redux/feature/cart.slice';
 
 type FieldType = {
   email?: string;
@@ -54,6 +55,7 @@ const FormLogin = () => {
         if (res && codeRoles?.includes('USER')) {
           console.log('login success');
           dispatch(setIncrementCount());
+          dispatch(setCountCart());
           router.push('/');
         } else {
           console.log('login error');
