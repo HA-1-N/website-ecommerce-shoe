@@ -5,6 +5,10 @@ export const loginApi = async (data: any) => {
   return HTTP_SERVICE.post('/auth/login', data);
 };
 
+export const logoutApi = async (params: any) => {
+  return HTTP_SERVICE.post(`/auth/logout?refreshToken=${params}`);
+};
+
 export const registerApi = async (data: any) => {
   return HTTP_SERVICE.post('/auth/register', data, {
     headers: {

@@ -22,6 +22,12 @@ const dataMenu = [
     name: 'Change Password',
     href: '/profile/change-password',
   },
+
+  {
+    icon: <IoHomeOutline />,
+    name: 'Logout',
+    href: '/profile/logout',
+  },
 ];
 
 const MenuProfile = () => {
