@@ -1,6 +1,6 @@
 'use client';
 
-import { logoutApi } from '@/lib/api/auth.api';
+import { logoutApi, refreshTokenApi } from '@/lib/api/auth.api';
 import { clearStorage, getLocalStorageRefreshToken } from '@/lib/utils/auth.util';
 import { setIncrementCount } from '@/redux/feature/auth.slice';
 import { setCountCart } from '@/redux/feature/cart.slice';
@@ -13,6 +13,7 @@ const Logout = () => {
   const dispatch = useAppDispatch();
 
   const getRefreshToken = getLocalStorageRefreshToken();
+  console.log('getRefreshToken', getRefreshToken);
 
   const handleClickLogout = async () => {
     const params = {
@@ -21,6 +22,7 @@ const Logout = () => {
 
     try {
       const res = await logoutApi(params.refreshToken);
+
       if (res) {
         clearStorage();
         router.push('/login');
@@ -29,6 +31,8 @@ const Logout = () => {
       }
     } catch (error) {
       console.log(error);
+      const res = await refreshTokenApi(getRefreshToken);
+      console.log('res...', res);
     }
   };
 

@@ -2,7 +2,7 @@
 
 import { refreshTokenApi } from '@/lib/api/auth.api';
 import { getBannerData } from '@/lib/api/banner.api';
-import { getLocalStorageRefreshToken } from '@/lib/utils/auth.util';
+import { getLocalStorageRefreshToken, setLocalStorageRefreshToken, setLocalStorageToken } from '@/lib/utils/auth.util';
 import { CardSkeleton } from '@/ui/skeleton';
 import { Carousel } from 'antd';
 import Image from 'next/image';
@@ -32,7 +32,7 @@ const HomeSlider = () => {
       setSliderDetail(data);
     } else {
       const res = await refreshTokenApi(getRefreshToken);
-      console.log('res', res);
+      setLocalStorageToken(res?.refreshToken);
     }
   };
 

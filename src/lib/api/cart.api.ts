@@ -16,3 +16,7 @@ export const removeCartItemApi = (data: any) => {
 export const getCountCartApi = (userId: number) => {
   return HTTP_SERVICE.get(`/cart/count-cart/${userId}`);
 };
+
+export const clearCartApi = (userId: number) => {
+  return HTTP_SERVICE.delete(`/cart/clear-cart/${userId}`);
+};

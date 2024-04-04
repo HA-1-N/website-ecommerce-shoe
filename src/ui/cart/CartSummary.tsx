@@ -15,14 +15,18 @@ const CartSummary = (props: CartSummaryProps) => {
     return acc + Number(item?.product?.price) * Number(item?.quantity);
   }, 0);
 
-  const handleClickcontinueShopping = () => {
+  const handleClickContinueShopping = () => {
     router.push('/products/search');
+  };
+
+  const handleClickCheckout = () => {
+    router.push('/checkout');
   };
 
   return (
     <>
       <div>
-        <div>
+        <div className="border-2 border-gray-300 border-solid p-4">
           <div>
             <h2 className="text-2xl font-bold">Tổng đơn hàng</h2>
             <span className="text-lg font-bold">{listCartItem?.length} sản phẩm</span>
@@ -39,13 +43,15 @@ const CartSummary = (props: CartSummaryProps) => {
         </div>
 
         <div className="my-6">
-          <button className="text-lg px-4 py-2 text-center w-full bg-black text-white">Thanh toán ngay</button>
+          <button className="text-lg px-4 py-2 text-center w-full bg-black text-white" onClick={handleClickCheckout}>
+            Thanh toán ngay
+          </button>
         </div>
 
         <div className="my-6">
           <button
             className="text-lg px-4 py-2 text-center w-full bg-white text-black border-slate-300 border-2"
-            onClick={handleClickcontinueShopping}
+            onClick={handleClickContinueShopping}
           >
             Tiếp tục mua sắm
           </button>
