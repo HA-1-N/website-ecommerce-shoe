@@ -2,15 +2,46 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Navbar.module.css';
 import clsx from 'clsx';
 import MenuNavbar from './MenuNavbar';
 import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
 import ModalSearch from '../modal/ModalSearch';
+import { getLocalStorageId } from '@/lib/utils/auth.util';
+import { useAppSelector } from '@/redux/hook';
+import { getCountCartApi } from '@/lib/api/cart.api';
 
 const Navbar = () => {
+  const getCountNumberLogin = useAppSelector((state) => state.auth.countNumberLogin);
+  const countCartIncrement = useAppSelector((state) => state.cart.countCartIncrement);
+  const getUserIdLocaleStorage = getLocalStorageId();
+
   const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
+  const [userId, setUserId] = React.useState<string | null>(null);
+  const [countCart, setCountCart] = React.useState<number>(0);
+
+  const getUserId = () => {
+    setUserId(getUserIdLocaleStorage);
+  };
+
+  const getCountCart = async () => {
+    try {
+      const res = await getCountCartApi(Number(getUserIdLocaleStorage));
+      setCountCart(Number(res?.data));
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    getCountCart();
+  }, [countCartIncrement]);
+
+  useEffect(() => {
+    getUserId();
+    getCountCart();
+  }, [getCountNumberLogin]);
 
   const handleOpenModalSearch = () => {
     setIsOpenModalSearch(true);
@@ -47,16 +78,31 @@ const Navbar = () => {
                   <FaSearch />
                 </div>
 
-                <Link href="/register">
-                  <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out">
+                <Link href={userId ? '/cart' : '/login'}>
+                  <div className="text-gray-500 hover:text-black mx-4 text-xl transition duration-300 ease-in-out relative">
                     <FaShoppingBag />
+                    <div
+                      className="absolute text-white text-xs bg-orange-500 px-1.5 left-2/4"
+                      style={{ borderRadius: '50%', top: '-4px' }}
+                    >
+                      {countCart}
+                    </div>
                   </div>
                 </Link>
-                <Link href="/login">
-                  <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
-                    <FaUser />
-                  </div>
-                </Link>
+                {userId !== null ? (
+                  <Link href="/profile">
+                    <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
+                      {/* <Image /> */}
+                      abc
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href="/login">
+                    <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
+                      <FaUser />
+                    </div>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

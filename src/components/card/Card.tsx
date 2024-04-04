@@ -18,10 +18,11 @@ interface CardComponentProps {
   liked?: boolean;
   hotCategory?: string;
   id?: number;
+  handleAddToCart?: () => void;
 }
 
 const CardComponent = (props: CardComponentProps) => {
-  const { link, images, liked, price, title, hotCategory, id } = props;
+  const { link, images, liked, price, title, hotCategory, id, handleAddToCart } = props;
 
   return (
     <>
@@ -61,7 +62,7 @@ const CardComponent = (props: CardComponentProps) => {
               <FaExchangeAlt />
             </Link>
           </div>
-          <Button size="small" className={clsx(styles.btnAddToCart)}>
+          <Button size="small" className={clsx(styles.btnAddToCart)} onClick={handleAddToCart}>
             Add to cart
           </Button>
         </div>
