@@ -9,29 +9,6 @@ import FormShippingMethod from './FormShippingMethod';
 import FormPaymentMethod from './FormPaymentMethod';
 import FormFinish from './FormFinish';
 
-const items = [
-  {
-    title: 'Shipping Address',
-    description: 'Enter your shipping address',
-    disabled: false,
-  },
-  {
-    title: 'Shipping Method',
-    description: 'Choose the shipping method that you want',
-    disabled: true,
-  },
-  {
-    title: 'Payment Method',
-    description: 'Choose the payment method that you want',
-    disabled: true,
-  },
-  {
-    title: 'Finish',
-    description: 'Finish',
-    disabled: true,
-  },
-];
-
 const OrderCheckOut = () => {
   const initialValues = {
     name: '',
@@ -55,35 +32,35 @@ const OrderCheckOut = () => {
     {
       title: 'Shipping Method',
       description: 'Choose the shipping method that you want',
-      // disabled:
-      //   valuesUpload?.name &&
-      //   valuesUpload?.address &&
-      //   valuesUpload?.city &&
-      //   valuesUpload?.country &&
-      //   valuesUpload?.phone &&
-      //   valuesUpload?.prefix
-      //     ? false
-      //     : true,
+      disabled:
+        valuesUpload?.name &&
+        valuesUpload?.address &&
+        valuesUpload?.city &&
+        valuesUpload?.country &&
+        valuesUpload?.phone &&
+        valuesUpload?.prefix
+          ? false
+          : true,
     },
     {
       title: 'Payment Method',
       description: 'Choose the payment method that you want',
-      // disabled: valuesUpload?.shippingMethod ? false : true,
+      disabled: valuesUpload?.shippingMethod ? false : true,
     },
     {
       title: 'Finish',
       description: 'Finish',
-      // disabled:
-      //   valuesUpload?.name &&
-      //   valuesUpload?.address &&
-      //   valuesUpload?.city &&
-      //   valuesUpload?.country &&
-      //   valuesUpload?.phone &&
-      //   valuesUpload?.prefix &&
-      //   valuesUpload?.shippingMethod &&
-      //   valuesUpload?.paymentMethod
-      //     ? false
-      //     : true,
+      disabled:
+        valuesUpload?.name &&
+        valuesUpload?.address &&
+        valuesUpload?.city &&
+        valuesUpload?.country &&
+        valuesUpload?.phone &&
+        valuesUpload?.prefix &&
+        valuesUpload?.shippingMethod &&
+        valuesUpload?.paymentMethod
+          ? false
+          : true,
     },
   ];
 

@@ -66,13 +66,13 @@ const FormRegister = () => {
     const getImageFile: any = values?.image;
     const file = getImageFile?.file?.originFileObj;
     formData.append('file', file as File);
-    // registerApi(formData)
-    //   .then((res) => {
-    //     if (res) {
-    //       router.push('/login');
-    //     }
-    //   })
-    //   .catch(() => {});
+    registerApi(formData)
+      .then((res) => {
+        if (res) {
+          router.push('/login');
+        }
+      })
+      .catch(() => {});
   };
 
   const onFinishFailed = (errorInfo: any) => {

@@ -16,12 +16,22 @@ interface FormFinishProps {
 
 const FormFinish = (props: FormFinishProps) => {
   const { valuesUpload, setValuesUpload } = props;
-  // console.log('valuesUpload', valuesUpload);
 
   const dispatch = useAppDispatch();
 
   const listCartItems = useAppSelector((state) => state.cart.listCartItems);
-  const getListProductId = listCartItems?.map((item) => item?.product?.id);
+
+  const getAllTotalPrice = listCartItems?.reduce((acc, item) => {
+    return acc + Number(item?.product?.price) * Number(item?.quantity);
+  }, 0);
+
+  const getListProductUpload = listCartItems?.map((item) => ({
+    id: item?.product?.id,
+    quantity: item?.quantity,
+    sizeId: item?.size?.id,
+    colorId: item?.color?.id,
+    totalPrice: item?.quantity * item?.product?.price,
+  }));
 
   const currentDate = new Date();
 
@@ -48,7 +58,8 @@ const FormFinish = (props: FormFinishProps) => {
       paymentMethod: valuesUpload?.paymentMethod,
       status: 'Pending',
       orderDate: dayjs(currentDate).format('YYYY-MM-DD'),
-      productIds: getListProductId,
+      productCheckouts: getListProductUpload,
+      orderTotal: getAllTotalPrice,
     };
 
     try {
