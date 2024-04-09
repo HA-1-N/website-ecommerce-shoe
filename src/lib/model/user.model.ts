@@ -24,3 +24,16 @@ export interface UserAddressModel {
   userId?: number | null | undefined;
   note?: string | null | undefined;
 }
+
+export interface UserPaymentModel {
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
+  provider?: string | null | undefined;
+  accountNumber?: string | null | undefined;
+  expirity?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  expiredDate?: string | null | undefined;
+  cvv?: string | null | undefined;
+  userId?: number | null | undefined;
+}

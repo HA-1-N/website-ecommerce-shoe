@@ -13,7 +13,7 @@ const Logout = () => {
   const dispatch = useAppDispatch();
 
   const getRefreshToken = getLocalStorageRefreshToken();
-  console.log('getRefreshToken', getRefreshToken);
+  // console.log('getRefreshToken', getRefreshToken);
 
   const handleClickLogout = async () => {
     const params = {

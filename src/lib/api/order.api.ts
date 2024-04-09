@@ -7,3 +7,7 @@ export const orderCheckoutApi = (values: any) => {
 export const getOrderByUserIdApi = (userId: number) => {
   return HTTP_SERVICE.get(`/order/get-order-by-user-id/${userId}`);
 };
+
+export const getOrderByIdApi = (orderId: number) => {
+  return HTTP_SERVICE.get(`/order/get-order-by-id/${orderId}`);
+};
