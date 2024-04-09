@@ -21,7 +21,7 @@ const OrderCheckOut = () => {
   };
 
   const [valuesUpload, setValuesUpload] = useState<OrderModels>(initialValues);
-  console.log('valuesUpload', valuesUpload);
+  // console.log('valuesUpload', valuesUpload);
 
   const items = [
     {

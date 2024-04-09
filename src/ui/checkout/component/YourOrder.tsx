@@ -12,6 +12,8 @@ const YourOrder = () => {
 
   const [listCartItem, setListCartItem] = useState<CartItemModel[]>([]);
 
+  console.log('listCartItem', listCartItem);
+
   const total = listCartItem?.reduce((acc, item) => {
     return acc + Number(item?.product?.price) * Number(item?.quantity);
   }, 0);
