@@ -2,6 +2,7 @@
 
 import OrderStatus from '@/components/OderStatus';
 import { getOrderByUserIdApi } from '@/lib/api/order.api';
+import { ShippingMethodModel } from '@/lib/model/shipping-method';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { Button, Col, Row, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -30,6 +31,18 @@ const Profile = () => {
       render: (value: any) => {
         return <OrderStatus status={value?.status} />;
       },
+    },
+    {
+      title: 'Shipping Method',
+      dataIndex: 'shippingMethod',
+      key: 'shippingMethod',
+      render: (values: ShippingMethodModel) => <span>{values?.method}</span>,
+    },
+    {
+      title: 'Order Total',
+      dataIndex: 'orderTotal',
+      key: 'orderTotal',
+      render: (value: any) => <span>{value?.toLocaleString('en-US')}</span>,
     },
     {
       title: 'Action',

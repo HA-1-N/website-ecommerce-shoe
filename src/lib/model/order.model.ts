@@ -1,5 +1,7 @@
+import { ColorModels } from './color.model';
 import { ProductModels } from './product.model';
 import { ShippingMethodModel } from './shipping-method';
+import { SizeModel } from './size.model';
 import { UserAddressModel, UserModel, UserPaymentModel } from './user.model';
 
 export interface OrderModels {
@@ -31,6 +33,8 @@ export interface OrderProductModel {
   product?: ProductModels;
   quantity?: number;
   totalPrice?: number;
+  size?: SizeModel;
+  color?: ColorModels;
 }
 
 export interface OrderDetailModels {
