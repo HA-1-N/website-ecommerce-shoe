@@ -1,9 +1,12 @@
 'use client';
 
+import OrderStatus from '@/components/OderStatus';
 import { getOrderByUserIdApi } from '@/lib/api/order.api';
+import { ShippingMethodModel } from '@/lib/model/shipping-method';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { Button, Col, Row, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 const Profile = () => {
@@ -14,9 +17,32 @@ const Profile = () => {
       key: 'id',
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Order date',
+      dataIndex: 'orderDate',
+      key: 'orderDate',
+      render: (value: any) => {
+        return new Date(value).toLocaleDateString();
+      },
+    },
+    {
+      title: 'Order Status',
+      dataIndex: 'orderStatus',
+      key: 'orderStatus',
+      render: (value: any) => {
+        return <OrderStatus status={value?.status} />;
+      },
+    },
+    {
+      title: 'Shipping Method',
+      dataIndex: 'shippingMethod',
+      key: 'shippingMethod',
+      render: (values: ShippingMethodModel) => <span>{values?.method}</span>,
+    },
+    {
+      title: 'Order Total',
+      dataIndex: 'orderTotal',
+      key: 'orderTotal',
+      render: (value: any) => <span>{value?.toLocaleString('en-US')}</span>,
     },
     {
       title: 'Action',
@@ -24,20 +50,24 @@ const Profile = () => {
       key: 'action',
       render: (values: any, record: any) => (
         <Space size="middle">
-          <Button size="small" onClick={() => {}}>
-            Update
+          <Button size="small" onClick={() => handleClickBtnDetail(record)}>
+            Detail
           </Button>
         </Space>
       ),
     },
   ];
 
+  const router = useRouter();
+
+  const [data, setData] = React.useState([]);
+
   const getId = getLocalStorageId();
 
   const getOrderByUserId = async () => {
     try {
       const res = await getOrderByUserIdApi(Number(getId));
-      console.log('res', res.data);
+      setData(res.data);
     } catch (error) {
       console.log('error', error);
     }
@@ -47,12 +77,16 @@ const Profile = () => {
     getOrderByUserId();
   }, []);
 
+  const handleClickBtnDetail = (record: any) => {
+    router.push(`/profile/order-detail/${record?.id}`);
+  };
+
   return (
     <>
       <div>
         <h1 className="text-2xl font-bold">List Order</h1>
         <div className="mt-10">
-          <Table columns={columns} dataSource={[]} pagination={false} />
+          <Table columns={columns} dataSource={data} pagination={false} />
         </div>
       </div>
     </>

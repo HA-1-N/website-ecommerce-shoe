@@ -20,7 +20,11 @@ const CartSummary = (props: CartSummaryProps) => {
   };
 
   const handleClickCheckout = () => {
-    router.push('/checkout');
+    if (listCartItem?.length > 0) {
+      router.push('/checkout');
+    } else {
+      console.log('Giỏ hàng của bạn không có sản phẩm nào để thanh toán');
+    }
   };
 
   return (

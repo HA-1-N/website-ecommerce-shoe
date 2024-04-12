@@ -248,7 +248,7 @@ const ProductDetail = () => {
                       {color?.name === item?.name ? (
                         <FaCheck
                           style={{
-                            color: item?.code === '#fff' ? 'rgb(249 115 22)' : '#fff',
+                            color: item?.code === '#fff' || item?.code === '#ffffff' ? 'rgb(249 115 22)' : '#fff',
                             textAlign: 'center',
                             width: '100%',
                           }}
