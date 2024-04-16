@@ -35,6 +35,8 @@ const FormFinish = (props: FormFinishProps) => {
 
   const currentDate = new Date();
 
+  console.log('currentDate', currentDate);
+
   const userId = getLocalStorageId();
   const router = useRouter();
 
@@ -57,7 +59,7 @@ const FormFinish = (props: FormFinishProps) => {
       shippingMethod: valuesUpload?.shippingMethod,
       paymentMethod: valuesUpload?.paymentMethod,
       status: 'Pending',
-      orderDate: dayjs(currentDate).format('YYYY-MM-DD'),
+      orderDate: dayjs(currentDate).format('YYYY-MM-DD HH:mm:ss'),
       productCheckouts: getListProductUpload,
       orderTotal: getAllTotalPrice,
     };
