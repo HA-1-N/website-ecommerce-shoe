@@ -224,7 +224,7 @@ const ProductDetail = () => {
               <div>
                 <h1 className="text-3xl font-semibold">{productDetail?.name}</h1>
 
-                <span className="text-xl text-bold">{productDetail?.price}</span>
+                <span className="text-xl text-bold">{productDetail?.price?.toLocaleString('en-US')} VND</span>
 
                 <p>{productDetail?.description}</p>
               </div>

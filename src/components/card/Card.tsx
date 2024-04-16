@@ -63,7 +63,7 @@ const CardComponent = (props: CardComponentProps) => {
             </Link>
           </div>
           <Button size="small" className={clsx(styles.btnAddToCart)} onClick={handleAddToCart}>
-            Add to cart
+            View Detail
           </Button>
         </div>
         <div className={clsx(styles.content)}>
@@ -73,7 +73,7 @@ const CardComponent = (props: CardComponentProps) => {
             </Link>
           </h5>
           <span className={clsx(styles.price)}>
-            <span className={clsx(styles.new)}>$38.5</span>
+            <span className={clsx(styles.new)}>{price?.toLocaleString('en-EU')} VND</span>
           </span>
         </div>
       </div>
