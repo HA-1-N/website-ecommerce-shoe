@@ -20,7 +20,7 @@ const MenuNavbar = () => {
                   All Product
                 </Link>
               </li>
-              <li className={clsx(styles.itemChild, 'py-2 px-4 hover:bg-gray-300')}>
+              {/* <li className={clsx(styles.itemChild, 'py-2 px-4 hover:bg-gray-300')}>
                 <Link href={'#'} className={clsx(styles.itemLink, 'text-gray-500')}>
                   New Arrival
                 </Link>
@@ -34,7 +34,7 @@ const MenuNavbar = () => {
                 <Link href={'#'} className={clsx(styles.itemLink, 'text-gray-500')}>
                   Trending
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
