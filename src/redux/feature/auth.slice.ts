@@ -40,6 +40,19 @@ export const authSlice = createSlice({
       };
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getCurrentUserByIdAsync.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getCurrentUserByIdAsync.fulfilled, (state, action) => {
+      state.loading = false;
+      state.currentUser = action.payload;
+    });
+    builder.addCase(getCurrentUserByIdAsync.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || null;
+    });
+  },
 });
 
 export const { setAuthState, setCurrentUser, setIncrementCount } = authSlice.actions;
