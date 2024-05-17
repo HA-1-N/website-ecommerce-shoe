@@ -30,21 +30,14 @@ const ProductDetail = () => {
   const getIdLocalStorage = getLocalStorageId();
 
   const [productDetail, setProductDetail] = useState<ProductModels | null>(null);
-  // console.log('productDetail', productDetail);
-
   const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels[]>([]);
   const [listProductImage, setListProductImage] = useState<any[]>([]);
 
   const [listSizeColor, setListSizeColor] = useState<any[]>([]);
   const [listColor, setListColor] = useState<ColorModels[]>([]);
   const [color, setColor] = useState<ColorModels | null>(null);
-  // console.log('color', color);
-
   const [size, setSize] = useState<SizeModel | null>(null);
-  // console.log('size', size);
-
   const [quantity, setQuantity] = useState<number | null>(1);
-  // console.log('quantity', quantity);
 
   const getImagesBySizeAndColor = (
     productQuantities: ProductQuantityModels[],
@@ -86,8 +79,6 @@ const ProductDetail = () => {
         return acc;
       }, []);
 
-      setListSizeColor(transformedDataSizeColor);
-
       const getListColor = transformedDataSizeColor?.map((item: any) => item.color);
       const getSizeByColor = transformedDataSizeColor
         ?.filter((item: any) => item.color.id === getListColor[0]?.id)
@@ -96,6 +87,7 @@ const ProductDetail = () => {
 
       const getListImage = getImagesBySizeAndColor(productQuantities, getSizeByColor[0], getListColor[0]);
 
+      setListSizeColor(transformedDataSizeColor);
       setProductQuantitiesDetail(productQuantities);
       setListProductImage(getListImage);
       setListColor(getListColor);

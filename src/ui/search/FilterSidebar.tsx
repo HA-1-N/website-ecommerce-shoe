@@ -14,7 +14,7 @@ import { changeFormSearch, changePageSearch, filterProductWebsiteAsync } from '@
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { Checkbox, Col, GetProp, Row, Slider, SliderSingleProps } from 'antd';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 const FilterSidebar = () => {
@@ -33,8 +33,8 @@ const FilterSidebar = () => {
     brandId: null,
     sizeId: null,
     colorId: null,
-    minPrice: null,
-    maxPrice: null,
+    minPrice: 0,
+    maxPrice: 5000000,
   };
 
   const searchParams = useSearchParams();
@@ -55,6 +55,8 @@ const FilterSidebar = () => {
   const [size, setSize] = useState<any>([]);
   const [color, setColor] = useState<any>([]);
   const [price, setPrice] = useState<number[]>([0, 5000000]);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const queryParams: ParamsModel = {
     page: pageSearch - 1,
@@ -178,9 +180,20 @@ const FilterSidebar = () => {
     replace(`${pathname}?${params.toString()}`);
   }, 500);
 
-  const handleChangePrice = (value: number[]) => {
+  const handleChangePrice = useDebouncedCallback((value: number[]) => {
+    // if (timeoutRef.current) {
+    //   clearTimeout(timeoutRef.current);
+    // }
+
     setPrice(value);
-  };
+    const params = new URLSearchParams(searchParams);
+    const newFormSearch = { ...formSearch, minPrice: value[0], maxPrice: value[1] };
+    filterProduct(newFormSearch, queryParams);
+    dispatch(changeFormSearch(newFormSearch));
+    params.set('minPrice', value[0].toString());
+    params.set('maxPrice', value[1].toString());
+    replace(`${pathname}?${params.toString()}`);
+  });
 
   const handleReset = () => {
     setCategory([]);
@@ -298,7 +311,7 @@ const FilterSidebar = () => {
                 <Col span={24}>
                   <Slider
                     range
-                    defaultValue={price}
+                    value={price}
                     max={20000000}
                     marks={marks}
                     onChange={(value: number[]) => handleChangePrice(value)}
