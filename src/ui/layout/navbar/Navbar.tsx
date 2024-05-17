@@ -20,8 +20,6 @@ const Navbar = () => {
   const countCartIncrement = useAppSelector((state) => state.cart.countCartIncrement);
   const currentUser = useAppSelector((state) => state.auth.currentUser);
 
-  console.log('currentUser', currentUser);
-
   const getUserIdLocaleStorage = getLocalStorageId();
 
   const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
