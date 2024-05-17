@@ -9,12 +9,17 @@ import MenuNavbar from './MenuNavbar';
 import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
 import ModalSearch from '../modal/ModalSearch';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
-import { useAppSelector } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { getCountCartApi } from '@/lib/api/cart.api';
+import { getCurrentUserByIdAsync } from '@/redux/feature/auth.slice';
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
+
   const getCountNumberLogin = useAppSelector((state) => state.auth.countNumberLogin);
   const countCartIncrement = useAppSelector((state) => state.cart.countCartIncrement);
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
+
   const getUserIdLocaleStorage = getLocalStorageId();
 
   const [isOpenModalSearch, setIsOpenModalSearch] = React.useState(false);
@@ -23,6 +28,10 @@ const Navbar = () => {
 
   const getUserId = () => {
     setUserId(getUserIdLocaleStorage);
+  };
+
+  const getCurrentUser = () => {
+    dispatch(getCurrentUserByIdAsync(Number(getUserIdLocaleStorage)));
   };
 
   const getCountCart = async () => {
@@ -41,6 +50,7 @@ const Navbar = () => {
   useEffect(() => {
     getUserId();
     getCountCart();
+    getCurrentUser();
   }, [getCountNumberLogin]);
 
   const handleOpenModalSearch = () => {
@@ -92,8 +102,7 @@ const Navbar = () => {
                 {userId !== null ? (
                   <Link href="/profile">
                     <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
-                      {/* <Image /> */}
-                      abc
+                      <Image src={currentUser?.image} alt="logo_icon" width={30} height={30} />
                     </div>
                   </Link>
                 ) : (

@@ -4,6 +4,7 @@ import OrderStatus from '@/components/OderStatus';
 import { getOrderByUserIdApi } from '@/lib/api/order.api';
 import { ShippingMethodModel } from '@/lib/model/shipping-method';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
+import { formatDate } from '@/lib/utils/date.util';
 import { Button, Col, Row, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useRouter } from 'next/navigation';
@@ -21,7 +22,8 @@ const Profile = () => {
       dataIndex: 'orderDate',
       key: 'orderDate',
       render: (value: any) => {
-        return new Date(value).toLocaleDateString();
+        const format = formatDate(value * 1000, 'DD-MM-YYYY HH:mm:ss');
+        return <span>{format}</span>;
       },
     },
     {
