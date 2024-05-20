@@ -6,6 +6,7 @@ import { ColorModels } from '@/lib/model/color.model';
 import { OrderDetailModels, OrderProductModel } from '@/lib/model/order.model';
 import { SizeModel } from '@/lib/model/size.model';
 import { Table } from 'antd';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
@@ -17,6 +18,14 @@ const OrderDetail = () => {
       key: 'product',
       render: (value: any) => {
         return value?.name;
+      },
+    },
+    {
+      title: 'Product Image',
+      dataIndex: 'product',
+      key: 'product',
+      render: (value: any) => {
+        return <Image alt="image" src={value?.productImages[0]?.url} height={50} width={50} />;
       },
     },
     {
