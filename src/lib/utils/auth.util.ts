@@ -17,7 +17,7 @@ export const getLocalStorageToken = () => {
 };
 
 export const getLocalStorageId = () => {
-  return localStorage.getItem(KEY_STORES.id);
+  return localStorage?.getItem(KEY_STORES.id);
 };
 
 export const getLocalStorageRefreshToken = () => {

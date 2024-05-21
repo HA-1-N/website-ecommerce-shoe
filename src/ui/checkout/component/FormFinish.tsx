@@ -59,6 +59,7 @@ const FormFinish = (props: FormFinishProps) => {
       shippingMethod: valuesUpload?.shippingMethod,
       paymentMethod: valuesUpload?.paymentMethod,
       status: 'Pending',
+      // orderDate: dayjs(currentDate).format('YYYY-MM-DDTHH:mm:ss[Z]'),
       orderDate: dayjs(currentDate).format('YYYY-MM-DD HH:mm:ss'),
       productCheckouts: getListProductUpload,
       orderTotal: getAllTotalPrice,
