@@ -35,7 +35,7 @@ const FormFinish = (props: FormFinishProps) => {
 
   const currentDate = new Date();
 
-  console.log('currentDate', currentDate);
+  // console.log('currentDate', currentDate);
 
   const userId = getLocalStorageId();
   const router = useRouter();
