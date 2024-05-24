@@ -5,6 +5,7 @@ import { removeCartItemApi } from '@/lib/api/cart.api';
 import { CartItemModel } from '@/lib/model/cart.model';
 import { setCountCart } from '@/redux/feature/cart.slice';
 import { useAppDispatch } from '@/redux/hook';
+import { useState } from 'react';
 
 interface CartItemProps {
   listCartItem: CartItemModel[];
@@ -13,6 +14,8 @@ interface CartItemProps {
 
 const CartItem = (props: CartItemProps) => {
   const { listCartItem, getCartItem } = props;
+
+  console.log('listCartItem', listCartItem);
 
   const dispatch = useAppDispatch();
 
@@ -35,6 +38,7 @@ const CartItem = (props: CartItemProps) => {
       <div>
         {listCartItem?.map((item: CartItemModel, index: number) => (
           <CardCartItem
+            cartItemId={item?.id}
             productName={item?.product?.name}
             key={index}
             productCode={item?.product?.id}
