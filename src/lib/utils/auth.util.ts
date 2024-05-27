@@ -1,3 +1,5 @@
+'use client';
+
 import { KEY_STORES } from '../constants/key-store.constant';
 
 export const setLocalStorageToken = (value: any) => {
@@ -13,14 +15,17 @@ export const setLocalStorageRefreshToken = (value: any) => {
 };
 
 export const getLocalStorageToken = () => {
+  if (typeof window === 'undefined') return;
   return localStorage.getItem(KEY_STORES.accessToken);
 };
 
 export const getLocalStorageId = () => {
+  if (typeof window === 'undefined') return;
   return localStorage?.getItem(KEY_STORES.id);
 };
 
 export const getLocalStorageRefreshToken = () => {
+  if (typeof window === 'undefined') return;
   return localStorage.getItem(KEY_STORES.refreshToken);
 };
 
