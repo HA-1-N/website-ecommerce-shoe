@@ -7,8 +7,11 @@ import CartSummary from './CartSummary';
 import { getCartItemApi } from '@/lib/api/cart.api';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { CartItemModel } from '@/lib/model/cart.model';
+import { useAppSelector } from '@/redux/hook';
 
 const Cart = () => {
+  const countCart = useAppSelector((state) => state.cart.countCartIncrement);
+
   const [listCartItem, setListCartItem] = useState<CartItemModel[]>([]);
 
   const getIdUser = getLocalStorageId();
@@ -25,7 +28,7 @@ const Cart = () => {
 
   useEffect(() => {
     getCartItem();
-  }, []);
+  }, [countCart]);
   return (
     <>
       <div className="container mx-auto my-8">

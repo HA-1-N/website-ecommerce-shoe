@@ -3,6 +3,7 @@
 import CardCartItem from '@/components/card/CardCartItem';
 import { removeCartItemApi } from '@/lib/api/cart.api';
 import { CartItemModel } from '@/lib/model/cart.model';
+import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { setCountCart } from '@/redux/feature/cart.slice';
 import { useAppDispatch } from '@/redux/hook';
 import { useState } from 'react';
@@ -15,9 +16,14 @@ interface CartItemProps {
 const CartItem = (props: CartItemProps) => {
   const { listCartItem, getCartItem } = props;
 
-  console.log('listCartItem', listCartItem);
+  // console.log('listCartItem', listCartItem);
+  const userId = getLocalStorageId();
 
   const dispatch = useAppDispatch();
+
+  const inCrementCountCart = () => {
+    dispatch(setCountCart());
+  };
 
   const handleDeleteCartItem = async (cartItemId?: number | null) => {
     if (!cartItemId) return;
@@ -26,7 +32,7 @@ const CartItem = (props: CartItemProps) => {
       const res = await removeCartItemApi({ cartItemId });
       if (res) {
         getCartItem();
-        dispatch(setCountCart());
+        inCrementCountCart();
       }
     } catch (error) {
       console.log(error);
@@ -48,6 +54,8 @@ const CartItem = (props: CartItemProps) => {
             quantity={item?.quantity}
             imageSrc={item?.productImage?.image}
             onRemove={() => handleDeleteCartItem(item?.id)}
+            inCrementCountCart={inCrementCountCart}
+            userId={userId}
           />
         ))}
       </div>

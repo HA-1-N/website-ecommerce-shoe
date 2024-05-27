@@ -15,6 +15,8 @@ interface CardCartItemProps {
   price?: number;
   cartItemId?: number | null;
   onRemove?: any;
+  inCrementCountCart?: any;
+  userId?: any;
 }
 
 const TitleCartFunct = ({ title, content }: { title?: string; content?: any }) => {
@@ -27,7 +29,20 @@ const TitleCartFunct = ({ title, content }: { title?: string; content?: any }) =
 };
 
 const CardCartItem = (props: CardCartItemProps) => {
-  const { key, productName, imageSrc, productCode, quantity, color, size, price, onRemove, cartItemId } = props;
+  const {
+    key,
+    productName,
+    imageSrc,
+    productCode,
+    quantity,
+    color,
+    size,
+    price,
+    onRemove,
+    cartItemId,
+    inCrementCountCart,
+    userId,
+  } = props;
 
   const [quantityValue, setQuantityValue] = React.useState<number | null | undefined>(quantity);
 
@@ -36,18 +51,22 @@ const CardCartItem = (props: CardCartItemProps) => {
   const onDecrementQuantity = useCallback((value: number | null | undefined) => {
     if (value === 1) return;
     const newValue = Number(value) - 1;
-    setQuantityValue(newValue);
 
     const valueUploadChangeQuantity = {
       id: cartItemId,
       productId: productCode,
       quantity: newValue,
+      userId: Number(userId),
     };
 
     updateCartItemApi(valueUploadChangeQuantity)
       .then((res) => {
         console.log('res', res);
-        alert('Cập nhật số lượng thành công');
+        if (res) {
+          setQuantityValue(newValue);
+          inCrementCountCart();
+          alert('Cập nhật số lượng thành công');
+        }
       })
       .catch((err) => {
         console.log('err', err);
@@ -57,18 +76,22 @@ const CardCartItem = (props: CardCartItemProps) => {
 
   const onIncrementQuantity = useCallback((value: number | null | undefined) => {
     const newValue = Number(value) + 1;
-    setQuantityValue(newValue);
 
     const valueUploadChangeQuantity = {
       id: cartItemId,
       productId: productCode,
       quantity: newValue,
+      userId: Number(userId),
     };
 
     updateCartItemApi(valueUploadChangeQuantity)
       .then((res) => {
         console.log('res', res);
-        alert('Cập nhật số lượng thành công');
+        if (res) {
+          setQuantityValue(newValue);
+          inCrementCountCart();
+          alert('Cập nhật số lượng thành công');
+        }
       })
       .catch((err) => {
         console.log('err', err);
