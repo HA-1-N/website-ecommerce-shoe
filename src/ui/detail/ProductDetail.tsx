@@ -5,7 +5,7 @@ import { ColorModels } from '@/lib/model/color.model';
 import { ProductModels, ProductQuantityModels } from '@/lib/model/product.model';
 import { SizeModel } from '@/lib/model/size.model';
 import { removeDuplicates } from '@/lib/utils/array.util';
-import { Button, Col, InputNumber, Row } from 'antd';
+import { Button, Col, InputNumber, NotificationArgsProps, Row, notification } from 'antd';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -21,6 +21,8 @@ import { AddToCartModel } from '@/lib/model/cart.model';
 import { useAppDispatch } from '@/redux/hook';
 import { setCountCart } from '@/redux/feature/cart.slice';
 
+type NotificationPlacement = NotificationArgsProps['placement'];
+
 const ProductDetail = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
@@ -28,6 +30,8 @@ const ProductDetail = () => {
 
   const getId = Number(params.id);
   const getIdLocalStorage = getLocalStorageId();
+
+  const [api, contextHolder] = notification.useNotification();
 
   const [productDetail, setProductDetail] = useState<ProductModels | null>(null);
   const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels[]>([]);
@@ -161,11 +165,18 @@ const ProductDetail = () => {
     setQuantity(value);
   };
 
+  const openNotificationSuccess = (placement: NotificationPlacement, message?: any, description?: any) => {
+    api.success({
+      message: message,
+      description: description,
+      placement,
+    });
+  };
+
   const handleAddToCart = async () => {
     if (getIdLocalStorage) {
       // call api add to cart
-      console.log('call api add to cart');
-
+      // console.log('call api add to cart');
       const body: AddToCartModel = {
         userId: Number(getIdLocalStorage),
         productId: Number(productDetail?.id),
@@ -173,12 +184,12 @@ const ProductDetail = () => {
         colorId: color?.id,
         sizeId: size?.id,
       };
-
       addToCartApi(body)
         .then((res) => {
           if (res) {
             console.log('res', res);
             dispatch(setCountCart());
+            openNotificationSuccess('topRight', 'Add to cart success', '');
           }
         })
         .catch((err) => {
@@ -191,6 +202,7 @@ const ProductDetail = () => {
 
   return (
     <>
+      {contextHolder}
       <div>
         <div className="container mx-auto px-4 py-8">
           <Row gutter={[16, 16]}>
