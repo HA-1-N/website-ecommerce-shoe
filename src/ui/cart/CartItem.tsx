@@ -11,10 +11,15 @@ import { useState } from 'react';
 interface CartItemProps {
   listCartItem: CartItemModel[];
   getCartItem: () => Promise<void>;
+  openNotificationCustom: (
+    type: 'success' | 'info' | 'warning' | 'error',
+    message: string,
+    description: string,
+  ) => void;
 }
 
 const CartItem = (props: CartItemProps) => {
-  const { listCartItem, getCartItem } = props;
+  const { listCartItem, getCartItem, openNotificationCustom } = props;
 
   // console.log('listCartItem', listCartItem);
   const userId = getLocalStorageId();
@@ -33,6 +38,7 @@ const CartItem = (props: CartItemProps) => {
       if (res) {
         getCartItem();
         inCrementCountCart();
+        openNotificationCustom('success', 'Remove item success', '');
       }
     } catch (error) {
       console.log(error);
@@ -56,6 +62,7 @@ const CartItem = (props: CartItemProps) => {
             onRemove={() => handleDeleteCartItem(item?.id)}
             inCrementCountCart={inCrementCountCart}
             userId={userId}
+            openNotificationCustom={openNotificationCustom}
           />
         ))}
       </div>

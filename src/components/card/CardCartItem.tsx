@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { MdClose } from 'react-icons/md';
 import { Col, Row } from 'antd';
 import { updateCartItemApi } from '@/lib/api/cart.api';
+import { getMsgErrorApi } from '@/lib/utils/form.util';
 
 interface CardCartItemProps {
   key: any;
@@ -17,6 +18,7 @@ interface CardCartItemProps {
   onRemove?: any;
   inCrementCountCart?: any;
   userId?: any;
+  openNotificationCustom?: any;
 }
 
 const TitleCartFunct = ({ title, content }: { title?: string; content?: any }) => {
@@ -42,6 +44,7 @@ const CardCartItem = (props: CardCartItemProps) => {
     cartItemId,
     inCrementCountCart,
     userId,
+    openNotificationCustom,
   } = props;
 
   const [quantityValue, setQuantityValue] = React.useState<number | null | undefined>(quantity);
@@ -65,12 +68,12 @@ const CardCartItem = (props: CardCartItemProps) => {
         if (res) {
           setQuantityValue(newValue);
           inCrementCountCart();
-          alert('Cập nhật số lượng thành công');
+          openNotificationCustom('success', 'Cập nhật số lượng thành công', '');
         }
       })
       .catch((err) => {
-        console.log('err', err);
-        alert('Cập nhật số lượng thất bại');
+        // console.log('err', err);
+        openNotificationCustom('error', getMsgErrorApi(err), '');
       });
   }, []);
 
@@ -90,12 +93,12 @@ const CardCartItem = (props: CardCartItemProps) => {
         if (res) {
           setQuantityValue(newValue);
           inCrementCountCart();
-          alert('Cập nhật số lượng thành công');
+          openNotificationCustom('success', 'Cập nhật số lượng thành công', '');
         }
       })
       .catch((err) => {
-        console.log('err', err);
-        alert('Cập nhật số lượng thất bại');
+        // console.log('err', err);
+        openNotificationCustom('error', getMsgErrorApi(err), '');
       });
   }, []);
 
