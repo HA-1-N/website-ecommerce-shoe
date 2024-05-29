@@ -4,10 +4,11 @@ import React from 'react';
 
 interface CartSummaryProps {
   listCartItem: CartItemModel[];
+  openNotificationCustom: any;
 }
 
 const CartSummary = (props: CartSummaryProps) => {
-  const { listCartItem } = props;
+  const { listCartItem, openNotificationCustom } = props;
 
   const router = useRouter();
 
@@ -24,6 +25,7 @@ const CartSummary = (props: CartSummaryProps) => {
       router.push('/checkout');
     } else {
       console.log('Giỏ hàng của bạn không có sản phẩm nào để thanh toán');
+      openNotificationCustom('warning', 'Giỏ hàng của bạn không có sản phẩm nào để thanh toán', '');
     }
   };
 
@@ -32,23 +34,23 @@ const CartSummary = (props: CartSummaryProps) => {
       <div>
         <div className="border-2 border-gray-300 border-solid p-4">
           <div>
-            <h2 className="text-2xl font-bold">Tổng đơn hàng</h2>
-            <span className="text-lg font-bold">{listCartItem?.length} sản phẩm</span>
+            <h2 className="text-2xl font-bold">Total order</h2>
+            <span className="text-lg font-bold">{listCartItem?.length} products</span>
           </div>
           <div>
-            <span className="text-lg font-bold">Tổng cộng: </span>
+            <span className="text-lg font-bold">Total: </span>
             <span className="text-lg">{total?.toLocaleString()} VNĐ</span>
           </div>
 
           <div>
-            <span className="text-lg font-bold">Tổng đơn đặt hàng: </span>
+            <span className="text-lg font-bold">Total order: </span>
             <span className="text-lg">{total?.toLocaleString()} VNĐ </span>
           </div>
         </div>
 
         <div className="my-6">
           <button className="text-lg px-4 py-2 text-center w-full bg-black text-white" onClick={handleClickCheckout}>
-            Thanh toán ngay
+            Checkout now
           </button>
         </div>
 
@@ -57,7 +59,7 @@ const CartSummary = (props: CartSummaryProps) => {
             className="text-lg px-4 py-2 text-center w-full bg-white text-black border-slate-300 border-2"
             onClick={handleClickContinueShopping}
           >
-            Tiếp tục mua sắm
+            Continue shopping
           </button>
         </div>
       </div>

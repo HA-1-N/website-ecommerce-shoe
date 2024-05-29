@@ -54,7 +54,7 @@ const Cart = () => {
             />
           </Col>
           <Col span={6}>
-            <CartSummary listCartItem={listCartItem} />
+            <CartSummary listCartItem={listCartItem} openNotificationCustom={openNotificationCustom} />
           </Col>
         </Row>
       </div>
