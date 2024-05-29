@@ -20,8 +20,9 @@ import { addToCartApi } from '@/lib/api/cart.api';
 import { AddToCartModel } from '@/lib/model/cart.model';
 import { useAppDispatch } from '@/redux/hook';
 import { setCountCart } from '@/redux/feature/cart.slice';
+import { getMsgErrorApi } from '@/lib/utils/form.util';
 
-type NotificationPlacement = NotificationArgsProps['placement'];
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const ProductDetail = () => {
   const params = useParams();
@@ -165,11 +166,10 @@ const ProductDetail = () => {
     setQuantity(value);
   };
 
-  const openNotificationSuccess = (placement: NotificationPlacement, message?: any, description?: any) => {
-    api.success({
-      message: message,
-      description: description,
-      placement,
+  const openNotificationSuccess = (type: NotificationType, message?: any, description?: any) => {
+    api[type as NotificationType]({
+      message,
+      description,
     });
   };
 
@@ -187,13 +187,14 @@ const ProductDetail = () => {
       addToCartApi(body)
         .then((res) => {
           if (res) {
-            console.log('res', res);
+            // console.log('res', res);
             dispatch(setCountCart());
-            openNotificationSuccess('topRight', 'Add to cart success', '');
+            openNotificationSuccess('success', 'Add to cart success', '');
           }
         })
         .catch((err) => {
-          console.log('err', err);
+          // console.log('err', err);
+          openNotificationSuccess('error', getMsgErrorApi(err), '');
         });
     } else {
       router.push('/login');
@@ -238,7 +239,7 @@ const ProductDetail = () => {
               {/* Color and size */}
               <div>
                 <div className="flex items-center">
-                  <h5 className="text-lg">Màu sắc: </h5>
+                  <h5 className="text-lg">Color: </h5>
                   <span className="ml-2 text-lg font-bold">{color?.name}</span>
                 </div>
                 <div className="mt-2 flex items-center">
@@ -293,7 +294,7 @@ const ProductDetail = () => {
 
               <div>
                 <div className="flex items-center">
-                  <h5 className="text-lg">Số lượng:</h5>
+                  <h5 className="text-lg">Quantity:</h5>
                   <div className="mt-2 ml-4">
                     <InputNumber min={1} max={10} value={quantity} onChange={onChangeQuantity} />
                   </div>

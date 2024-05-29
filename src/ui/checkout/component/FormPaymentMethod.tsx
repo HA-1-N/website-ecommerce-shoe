@@ -89,7 +89,7 @@ const FormPaymentMethod = (props: FormPaymentMethodProps) => {
           <Form.Item>
             <Space>
               <Button type="default" htmlType="submit">
-                Tiếp tục thanh toán
+                Continue payment
               </Button>
             </Space>
           </Form.Item>

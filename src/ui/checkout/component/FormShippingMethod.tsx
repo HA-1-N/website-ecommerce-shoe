@@ -3,6 +3,7 @@ import { ShippingMethodModel } from '../../../lib/model/shipping-method';
 import { filterShippingMethod } from '@/lib/api/shipping-method.api';
 import { Button, Form, Radio, Space } from 'antd';
 import { OrderModels } from '@/lib/model/order.model';
+import ShippingMethodCustom from '@/components/ShippingMethodCustom';
 
 interface FormShippingMethodProps {
   current: number;
@@ -82,7 +83,7 @@ const FormShippingMethod = (props: FormShippingMethodProps) => {
             <Radio.Group>
               {shippingMethodDetails.map((item) => (
                 <Radio value={item.method} key={item.id} className="w-full my-4">
-                  <span className="text-lg">{item.method}</span> - <span className="text-lg">{item.price} VND</span>
+                  <ShippingMethodCustom key={item?.id} method={item?.method} price={item?.price} />
                 </Radio>
               ))}
             </Radio.Group>
@@ -91,7 +92,7 @@ const FormShippingMethod = (props: FormShippingMethodProps) => {
           <Form.Item>
             <Space>
               <Button type="default" htmlType="submit">
-                Tiếp tục thanh toán
+                Continue payment
               </Button>
             </Space>
           </Form.Item>

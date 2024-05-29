@@ -135,12 +135,12 @@ const CardCartItem = (props: CardCartItemProps) => {
           <div>
             <h3 className="text-xl font-bold">{productName}</h3>
 
-            <TitleCartFunct title="Mã sản phẩm: " content={productCode} />
-            <TitleCartFunct title="Màu sắc: " content={color} />
+            <TitleCartFunct title="Product Code: " content={productCode} />
+            <TitleCartFunct title="Color: " content={color} />
             <TitleCartFunct title="Size: " content={size} />
             <TitleCartFunct title="Price: " content={price?.toLocaleString('en-US') + ' VND'} />
-            <TitleCartFunct title="Số lượng: " content={<QuantityFunct />} />
-            <TitleCartFunct title="Tổng: " content={total?.toLocaleString('en-US') + ' VND'} />
+            <TitleCartFunct title="Quantity: " content={<QuantityFunct />} />
+            <TitleCartFunct title="Total: " content={total?.toLocaleString('en-US') + ' VND'} />
           </div>
         </Col>
 
