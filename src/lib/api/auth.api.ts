@@ -23,6 +23,14 @@ export const getCurrentUserByIdApi = (id: number) => {
   return HTTP_SERVICE.get(`/user/get-by-id/${id}`);
 };
 
+export const verifyEmailApi = async (email: any) => {
+  return HTTP_SERVICE.get(`/auth/verify-email?email=${email}`);
+};
+
+export const verifyOtpEmailApi = async (data: any) => {
+  return HTTP_SERVICE.post(`/auth/verify-otp-email`, data);
+};
+
 export const changePasswordApi = (data: ChangePasswordModel) => {
   return HTTP_SERVICE.post('/auth/change-password', data);
 };
@@ -38,4 +46,8 @@ export const refreshTokenApi = async (data: any) => {
     body: JSON.stringify(data),
   });
   return response.json();
+};
+
+export const resetPasswordApi = async (body: any) => {
+  return await HTTP_SERVICE.post('/auth/reset-password', body);
 };

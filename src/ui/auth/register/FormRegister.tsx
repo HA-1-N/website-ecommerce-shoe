@@ -64,7 +64,9 @@ const FormRegister = () => {
 
     formData.append('data', new Blob([JSON.stringify(body)], { type: 'application/json' }));
     const getImageFile: any = values?.image;
+
     const file = getImageFile?.file?.originFileObj;
+    // console.log('file', file);
     formData.append('file', file as File);
     registerApi(formData)
       .then((res) => {

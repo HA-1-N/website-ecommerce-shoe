@@ -141,7 +141,7 @@ const ProductDetail = () => {
     customPaging: function (i: any) {
       return (
         <a>
-          <img src={listProductImage[i + 1]?.url} alt="image1" />
+          <Image src={listProductImage[i + 1]?.url} alt="image" width={50} height={50} />
         </a>
       );
     },
