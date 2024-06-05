@@ -27,7 +27,8 @@ const Navbar = () => {
   const [countCart, setCountCart] = React.useState<number>(0);
 
   const getUserId = () => {
-    setUserId(getUserIdLocaleStorage);
+    // setUserId(getUserIdLocaleStorage);
+    setUserId(getUserIdLocaleStorage ? getUserIdLocaleStorage : null);
   };
 
   const getCurrentUser = () => {
