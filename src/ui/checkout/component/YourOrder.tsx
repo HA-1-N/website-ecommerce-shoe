@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { getCartItemApi } from '@/lib/api/cart.api';
@@ -5,6 +6,7 @@ import { CartItemModel } from '@/lib/model/cart.model';
 import { getLocalStorageId } from '@/lib/utils/auth.util';
 import { setListCartItems } from '@/redux/feature/cart.slice';
 import { useAppDispatch } from '@/redux/hook';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 const YourOrder = () => {
@@ -41,17 +43,17 @@ const YourOrder = () => {
           <h1 className="text-2xl font-bold my-4">Your order</h1>
 
           <div>
-            <h2 className="text-2xl font-bold">Tổng đơn hàng</h2>
-            <span className="text-lg font-bold">{listCartItem?.length} sản phẩm</span>
+            <h2 className="text-2xl font-bold">Total Order</h2>
+            <span className="text-lg font-bold">{listCartItem?.length} products</span>
           </div>
 
           <div>
-            <span className="text-lg font-bold">Tổng cộng: </span>
+            <span className="text-lg font-bold">Total: </span>
             <span className="text-lg">{total?.toLocaleString()} VNĐ</span>
           </div>
 
           <div>
-            <span className="text-lg font-bold">Tổng đơn đặt hàng: </span>
+            <span className="text-lg font-bold">Total Order: </span>
             <span className="text-lg">{total?.toLocaleString()} VNĐ </span>
           </div>
           {/* <div>
@@ -62,7 +64,7 @@ const YourOrder = () => {
 
         <div className="border-2 border-gray-300 border-solid px-4 py-8 mt-6">
           <div>
-            <h2 className="text-2xl font-bold">Sản phẩm đặt hàng</h2>
+            <h2 className="text-2xl font-bold">Product Order</h2>
 
             {listCartItem?.map((item, index) => (
               <div key={index} className="flex justify-between items-center my-4">

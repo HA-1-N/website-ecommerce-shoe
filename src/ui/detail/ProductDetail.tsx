@@ -5,7 +5,7 @@ import { ColorModels } from '@/lib/model/color.model';
 import { ProductModels, ProductQuantityModels } from '@/lib/model/product.model';
 import { SizeModel } from '@/lib/model/size.model';
 import { removeDuplicates } from '@/lib/utils/array.util';
-import { Button, Col, InputNumber, Row } from 'antd';
+import { Button, Col, InputNumber, NotificationArgsProps, Row, notification } from 'antd';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +20,9 @@ import { addToCartApi } from '@/lib/api/cart.api';
 import { AddToCartModel } from '@/lib/model/cart.model';
 import { useAppDispatch } from '@/redux/hook';
 import { setCountCart } from '@/redux/feature/cart.slice';
+import { getMsgErrorApi } from '@/lib/utils/form.util';
+
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const ProductDetail = () => {
   const params = useParams();
@@ -28,6 +31,8 @@ const ProductDetail = () => {
 
   const getId = Number(params.id);
   const getIdLocalStorage = getLocalStorageId();
+
+  const [api, contextHolder] = notification.useNotification();
 
   const [productDetail, setProductDetail] = useState<ProductModels | null>(null);
   const [productQuantitiesDetail, setProductQuantitiesDetail] = useState<ProductQuantityModels[]>([]);
@@ -136,7 +141,7 @@ const ProductDetail = () => {
     customPaging: function (i: any) {
       return (
         <a>
-          <img src={listProductImage[i + 1]?.url} alt="image1" />
+          <Image src={listProductImage[i + 1]?.url} alt="image" width={50} height={50} />
         </a>
       );
     },
@@ -161,11 +166,17 @@ const ProductDetail = () => {
     setQuantity(value);
   };
 
+  const openNotificationSuccess = (type: NotificationType, message?: any, description?: any) => {
+    api[type as NotificationType]({
+      message,
+      description,
+    });
+  };
+
   const handleAddToCart = async () => {
     if (getIdLocalStorage) {
       // call api add to cart
-      console.log('call api add to cart');
-
+      // console.log('call api add to cart');
       const body: AddToCartModel = {
         userId: Number(getIdLocalStorage),
         productId: Number(productDetail?.id),
@@ -173,16 +184,17 @@ const ProductDetail = () => {
         colorId: color?.id,
         sizeId: size?.id,
       };
-
       addToCartApi(body)
         .then((res) => {
           if (res) {
-            console.log('res', res);
+            // console.log('res', res);
             dispatch(setCountCart());
+            openNotificationSuccess('success', 'Add to cart success', '');
           }
         })
         .catch((err) => {
-          console.log('err', err);
+          // console.log('err', err);
+          openNotificationSuccess('error', getMsgErrorApi(err), '');
         });
     } else {
       router.push('/login');
@@ -191,6 +203,7 @@ const ProductDetail = () => {
 
   return (
     <>
+      {contextHolder}
       <div>
         <div className="container mx-auto px-4 py-8">
           <Row gutter={[16, 16]}>
@@ -226,7 +239,7 @@ const ProductDetail = () => {
               {/* Color and size */}
               <div>
                 <div className="flex items-center">
-                  <h5 className="text-lg">Màu sắc: </h5>
+                  <h5 className="text-lg">Color: </h5>
                   <span className="ml-2 text-lg font-bold">{color?.name}</span>
                 </div>
                 <div className="mt-2 flex items-center">
@@ -281,7 +294,7 @@ const ProductDetail = () => {
 
               <div>
                 <div className="flex items-center">
-                  <h5 className="text-lg">Số lượng:</h5>
+                  <h5 className="text-lg">Quantity:</h5>
                   <div className="mt-2 ml-4">
                     <InputNumber min={1} max={10} value={quantity} onChange={onChangeQuantity} />
                   </div>

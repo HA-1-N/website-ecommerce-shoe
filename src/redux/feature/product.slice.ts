@@ -86,7 +86,7 @@ export const productSlice = createSlice({
     builder.addCase(filterProductAsync.fulfilled, (state, action) => {
       state.loading = false;
       state.productDetails = action.payload.data;
-      parseInt(action.payload.headers[TOTAL_COUNT_HEADER]) || 0;
+      state.totalPage = parseInt(action.payload.headers[TOTAL_COUNT_HEADER]) || 0;
       state.error = null;
     });
     builder.addCase(filterProductAsync.rejected, (state, action) => {

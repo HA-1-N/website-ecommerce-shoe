@@ -9,7 +9,7 @@ import FormShippingMethod from './FormShippingMethod';
 import FormPaymentMethod from './FormPaymentMethod';
 import FormFinish from './FormFinish';
 
-const OrderCheckOut = () => {
+const OrderCheckOut = ({ openNotificationCustom }: { openNotificationCustom: any }) => {
   const initialValues = {
     name: '',
     address: '',
@@ -88,7 +88,11 @@ const OrderCheckOut = () => {
       valuesUpload={valuesUpload}
       setValuesUpload={setValuesUpload}
     />,
-    <FormFinish valuesUpload={valuesUpload} setValuesUpload={setValuesUpload} />,
+    <FormFinish
+      valuesUpload={valuesUpload}
+      setValuesUpload={setValuesUpload}
+      openNotificationCustom={openNotificationCustom}
+    />,
   ];
 
   return (

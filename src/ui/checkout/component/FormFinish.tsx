@@ -12,10 +12,11 @@ import React from 'react';
 interface FormFinishProps {
   valuesUpload: OrderModels;
   setValuesUpload: (value: OrderModels) => void;
+  openNotificationCustom: any;
 }
 
 const FormFinish = (props: FormFinishProps) => {
-  const { valuesUpload, setValuesUpload } = props;
+  const { valuesUpload, setValuesUpload, openNotificationCustom } = props;
 
   const dispatch = useAppDispatch();
 
@@ -35,7 +36,7 @@ const FormFinish = (props: FormFinishProps) => {
 
   const currentDate = new Date();
 
-  console.log('currentDate', currentDate);
+  // console.log('currentDate', currentDate);
 
   const userId = getLocalStorageId();
   const router = useRouter();
@@ -68,6 +69,7 @@ const FormFinish = (props: FormFinishProps) => {
     try {
       const res = await orderCheckoutApi(values);
       if (res) {
+        openNotificationCustom('success', 'Checkout success', 'Thank you for your purchase');
         router.push('/');
         clearCartApi(Number(userId))
           .then((res) => {
@@ -96,7 +98,7 @@ const FormFinish = (props: FormFinishProps) => {
         <InfoContain title="Payment Method: " content={valuesUpload?.paymentMethod} />
 
         <Button type="default" htmlType="button" className="my-6" onClick={handleClickBtnCheckout}>
-          Xác nhận thanh toán
+          Confirm payment
         </Button>
       </div>
     </>

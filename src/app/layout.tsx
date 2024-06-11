@@ -7,6 +7,7 @@ import Navbar from '@/ui/layout/navbar/Navbar';
 import Footer from '@/ui/layout/footer/Footer';
 import CopyRight from '@/ui/layout/copy-right/CopyRight';
 import ProviderStore from '@/components/redux/ReduxProvider';
+import { EmailProvider } from '@/context/EmailContext';
 
 export const metadata: Metadata = {
   title: 'Website ecommerce',
@@ -18,11 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <ProviderStore>
-          <HeaderTop />
-          <Navbar />
-          {children}
-          <Footer />
-          <CopyRight />
+          <EmailProvider>
+            <HeaderTop />
+            <Navbar />
+            {children}
+            <Footer />
+            <CopyRight />
+          </EmailProvider>
         </ProviderStore>
       </body>
     </html>

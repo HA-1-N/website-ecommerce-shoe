@@ -126,7 +126,7 @@ const FormLogin = () => {
 
           <div className="text-center my-8">
             <div className="flex items-center justify-evenly">
-              <Link href={'#'}>
+              <Link href={'/verify-email'}>
                 <span
                   className={clsx(
                     styles.forgotPass,

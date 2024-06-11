@@ -3,9 +3,11 @@ import { authReducer } from './feature/auth.slice';
 import productSlice from './feature/product.slice';
 import cartSlice from './feature/cart.slice';
 import profileSlice from './feature/profile.slice';
+import counterSlice from './feature/counter.slice';
 
 export const store = configureStore({
   reducer: {
+    counter: counterSlice,
     auth: authReducer,
     product: productSlice,
     cart: cartSlice,
