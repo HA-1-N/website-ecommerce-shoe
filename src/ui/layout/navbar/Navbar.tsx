@@ -103,7 +103,16 @@ const Navbar = () => {
                 {userId !== null ? (
                   <Link href="/profile">
                     <div className="text-gray-500 hover:text-black ml-4 text-xl transition duration-300 ease-in-out">
-                      <Image src={currentUser?.image} alt="logo_icon" width={30} height={30} />
+                      <Image
+                        src={
+                          currentUser?.image
+                            ? currentUser?.image
+                            : 'https://res.cloudinary.com/dfk460xfr/image/upload/v1717402890/qh33moogyvofjsucjs0x.png'
+                        }
+                        alt="logo_icon"
+                        width={30}
+                        height={30}
+                      />
                     </div>
                   </Link>
                 ) : (
