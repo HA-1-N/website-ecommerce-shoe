@@ -7,6 +7,7 @@ import { useAppSelector } from '@/redux/hook';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Form, Input, Row, Select, Space, Upload } from 'antd';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 interface FormAccountDetailProps {
@@ -18,6 +19,8 @@ const FormAccountDetail = (props: FormAccountDetailProps) => {
   const { userDetail, getCurrentUser } = props;
   const { Option } = Select;
   const [form] = Form.useForm();
+
+  const router = useRouter();
 
   const convertDateOfBirth = dayjs(userDetail?.dateOfBirth).format('YYYY-MM-DD') || '';
 
@@ -70,6 +73,7 @@ const FormAccountDetail = (props: FormAccountDetailProps) => {
       .then((res) => {
         if (res) {
           console.log('res', res);
+          router.push('/profile');
           getCurrentUser();
         }
       })
